@@ -4,6 +4,7 @@ using GripOnMash.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GripOnMash.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241017142654_SeedRuoli")]
+    partial class SeedRuoli
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,32 +199,6 @@ namespace GripOnMash.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("InternalUser", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("57210e02-e035-4219-846a-759d12ba9f3b"),
-                            Cognome = "Silveri",
-                            IsEnabled = true,
-                            Matricola = "sb004193",
-                            Nome = "Marco"
-                        },
-                        new
-                        {
-                            Id = new Guid("1107cdf8-0255-4d21-b56a-67061a7a90cc"),
-                            Cognome = "Picchi",
-                            IsEnabled = true,
-                            Matricola = "00665539",
-                            Nome = "Daniele"
-                        },
-                        new
-                        {
-                            Id = new Guid("5ea5dc57-5013-41a1-9a33-24253f3e5910"),
-                            Cognome = "Rossi",
-                            IsEnabled = true,
-                            Matricola = "sb004194",
-                            Nome = "Mario"
-                        });
                 });
 
             modelBuilder.Entity("GripOnMash.Models.InternalUserRole", b =>
@@ -237,23 +214,6 @@ namespace GripOnMash.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("InternalUserRole", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            InternalUserId = new Guid("57210e02-e035-4219-846a-759d12ba9f3b"),
-                            RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
-                        },
-                        new
-                        {
-                            InternalUserId = new Guid("1107cdf8-0255-4d21-b56a-67061a7a90cc"),
-                            RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
-                        },
-                        new
-                        {
-                            InternalUserId = new Guid("5ea5dc57-5013-41a1-9a33-24253f3e5910"),
-                            RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
-                        });
                 });
 
             modelBuilder.Entity("GripOnMash.Models.MedicoBaseAnagrafica", b =>

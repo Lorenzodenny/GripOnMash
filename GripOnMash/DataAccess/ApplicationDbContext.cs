@@ -16,6 +16,8 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.SeedRoles();
+            modelBuilder.SeedInternalUsers();
 
             // Configurazione della struttura delle tabelle
             TableStructure.Configure(modelBuilder);

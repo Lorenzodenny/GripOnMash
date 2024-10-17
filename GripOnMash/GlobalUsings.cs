@@ -11,3 +11,6 @@ global using GripOnMash.Models;
 global using GripOnMash.Models.IdentityModel;
 global using GripOnMash.Shared;
 global using GripOnMash.DataAccess;
+global using GripOnMash.SeedData;
+
+

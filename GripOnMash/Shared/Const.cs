@@ -11,4 +11,11 @@
         public const string Risposta = "Risposta";
         public const string MedicoBaseAnagrafica = "MedicoBaseAnagrafica";
     }
+
+    public static class Ruoli
+    {
+        public const string User = "447b3ca6-bd0b-4e83-baf9-2de7069c10c5";
+        public const string Admin = "fe232d35-f62d-407f-995b-1934d38d96cc";
+    }
+
 }
