@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace GripOnMash.Models.IdentityModel
+﻿namespace GripOnMash.Models.IdentityModel
 {
     public class ApplicationUser : IdentityUser
     {

@@ -1,8 +1,4 @@
-﻿using GripOnMash.Models;
-using Microsoft.EntityFrameworkCore;
-using GripOnMash.Models.IdentityModel;
-
-namespace GripOnMash.Shared
+﻿namespace GripOnMash.Shared
 {
     public static class TableRelationship
     {

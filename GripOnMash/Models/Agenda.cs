@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-namespace GripOnMash.Models
+﻿namespace GripOnMash.Models
 {
     public class Agenda
     {

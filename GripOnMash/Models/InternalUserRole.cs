@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace GripOnMash.Models
+﻿namespace GripOnMash.Models
 {
     public class InternalUserRole
     {

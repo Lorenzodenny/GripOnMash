@@ -1,7 +1,4 @@
-﻿using GripOnMash.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace GripOnMash.Shared
+﻿namespace GripOnMash.Shared
 {
     public static class TableStructure
     {

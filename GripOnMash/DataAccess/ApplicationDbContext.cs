@@ -1,12 +1,4 @@
-﻿using GripOnMash.Models;
-using GripOnMash.Models.IdentityModel;
-using GripOnMash.Shared;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
-
-
-namespace GripOnMash.DataAccess
+﻿namespace GripOnMash.DataAccess
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

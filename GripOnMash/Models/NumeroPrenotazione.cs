@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace GripOnMash.Models
+﻿namespace GripOnMash.Models
 {
     public class NumeroPrenotazione
     {
