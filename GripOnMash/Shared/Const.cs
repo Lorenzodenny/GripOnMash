@@ -10,6 +10,7 @@
         public const string Domanda = "Domanda";
         public const string Risposta = "Risposta";
         public const string MedicoBaseAnagrafica = "MedicoBaseAnagrafica";
+        public const string InternalUserAccess = "InternalUserAccess";
     }
 
     public static class Ruoli

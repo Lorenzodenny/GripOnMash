@@ -23,6 +23,26 @@
                 
             });
 
+            // Configurazione di InternalUserAccess
+            modelBuilder.Entity<InternalUserAccess>(e =>
+            {
+                e.ToTable(TableName.InternalUserAccess);
+                e.HasKey(iua => iua.Id);
+                e.Property(iua => iua.Matricola)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+                e.Property(iua => iua.Accesso)
+                    .IsRequired();
+                e.Property(iua => iua.Uscita)
+                    .IsRequired(false);
+                e.Property(iua => iua.ScadenzaToken)
+                    .IsRequired();
+                e.Property(iua => iua.RefreshToken)
+                    .IsRequired(false)
+                    .HasMaxLength(256);
+            });
+
             // Configurazione di NumeroPrenotazione
             modelBuilder.Entity<NumeroPrenotazione>(e =>
             {

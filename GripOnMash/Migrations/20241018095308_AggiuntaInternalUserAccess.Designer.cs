@@ -4,6 +4,7 @@ using GripOnMash.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GripOnMash.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241018095308_AggiuntaInternalUserAccess")]
+    partial class AggiuntaInternalUserAccess
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,40 +167,6 @@ namespace GripOnMash.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "a9999779-ae40-4692-9aa5-38a891953a2d",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d75fe8d3-8dee-4451-b9a4-8c0c9ea3e5ff",
-                            Email = "medicobase1@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = true,
-                            NormalizedEmail = "MEDICOBASE1@GMAIL.COM",
-                            NormalizedUserName = "MEDICOBASE1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEEM7p/jwg6PZ87SOvLla7Df8HX0qinMQRa7t/C/wh9yzMi0gn7oEAD3rGUz93PqZ8g==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "19d6edb3-3dc4-49c5-9b50-97d722613773",
-                            TwoFactorEnabled = false,
-                            UserName = "medicoBase1"
-                        },
-                        new
-                        {
-                            Id = "bce2fa92-4ec6-4bc1-87f1-ba64f25fc5b8",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "c692da41-4006-4658-a6ea-68c2785e0db0",
-                            Email = "medicobase2@gmail.com",
-                            EmailConfirmed = true,
-                            LockoutEnabled = true,
-                            NormalizedEmail = "MEDICOBASE2@GMAIL.COM",
-                            NormalizedUserName = "MEDICOBASE2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPiIOb+1yGu02GKuzXT6IYsA25Q1kjhKTW/NjLSLiVViyx34qBrX7DnhwM2hdF0Utw==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "506e62c1-d882-472c-b4e9-4237df77aa6a",
-                            TwoFactorEnabled = false,
-                            UserName = "medicoBase2"
-                        });
                 });
 
             modelBuilder.Entity("GripOnMash.Models.InternalUser", b =>
@@ -234,7 +203,7 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b8999386-ac1b-47f7-9a90-2bdd4bb88ca9"),
+                            Id = new Guid("1d2e964a-997c-4483-a481-bdf8b5f34052"),
                             Cognome = "Silveri",
                             IsEnabled = true,
                             Matricola = "sb004193",
@@ -242,7 +211,7 @@ namespace GripOnMash.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f691dc5c-31e0-4e4d-8061-2d2952e4faca"),
+                            Id = new Guid("f47b99a3-82f0-4f63-944d-632843af20a3"),
                             Cognome = "Picchi",
                             IsEnabled = true,
                             Matricola = "00665539",
@@ -250,7 +219,7 @@ namespace GripOnMash.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8b89d683-a564-4f2e-a7b3-aadc5c008d32"),
+                            Id = new Guid("4a8e5cf6-cd76-4dbd-bfae-6a2ccef70ea7"),
                             Cognome = "Rossi",
                             IsEnabled = true,
                             Matricola = "sb004194",
@@ -307,17 +276,17 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            InternalUserId = new Guid("b8999386-ac1b-47f7-9a90-2bdd4bb88ca9"),
+                            InternalUserId = new Guid("1d2e964a-997c-4483-a481-bdf8b5f34052"),
                             RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
                         },
                         new
                         {
-                            InternalUserId = new Guid("f691dc5c-31e0-4e4d-8061-2d2952e4faca"),
+                            InternalUserId = new Guid("f47b99a3-82f0-4f63-944d-632843af20a3"),
                             RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
                         },
                         new
                         {
-                            InternalUserId = new Guid("8b89d683-a564-4f2e-a7b3-aadc5c008d32"),
+                            InternalUserId = new Guid("4a8e5cf6-cd76-4dbd-bfae-6a2ccef70ea7"),
                             RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
                         });
                 });
@@ -396,38 +365,6 @@ namespace GripOnMash.Migrations
                         .IsUnique();
 
                     b.ToTable("MedicoBaseAnagrafica", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            MedicoBaseAnagraficaId = 1,
-                            CodiceFiscale = "VRDGPP75E20H501Y",
-                            Cognome = "Verdi",
-                            EmailPersonale = "giuseppe.verdi@gmail.com",
-                            Eta = 45,
-                            IdentityId = "a9999779-ae40-4692-9aa5-38a891953a2d",
-                            Indirizzo = "Via Roma 1, Milano",
-                            Nome = "Giuseppe",
-                            NumeroAlbo = "12345MI",
-                            NumeroTelefono = "123456789",
-                            PartitaIVA = "12345678901",
-                            Specializzazione = "Cardiologia"
-                        },
-                        new
-                        {
-                            MedicoBaseAnagraficaId = 2,
-                            CodiceFiscale = "BNCFNC82C15H501Z",
-                            Cognome = "Bianchi",
-                            EmailPersonale = "francesca.bianchi@gmail.com",
-                            Eta = 38,
-                            IdentityId = "bce2fa92-4ec6-4bc1-87f1-ba64f25fc5b8",
-                            Indirizzo = "Via Torino 10, Torino",
-                            Nome = "Francesca",
-                            NumeroAlbo = "67890TO",
-                            NumeroTelefono = "987654321",
-                            PartitaIVA = "98765432109",
-                            Specializzazione = "Dermatologia"
-                        });
                 });
 
             modelBuilder.Entity("GripOnMash.Models.NumeroPrenotazione", b =>
@@ -605,18 +542,6 @@ namespace GripOnMash.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = "a9999779-ae40-4692-9aa5-38a891953a2d",
-                            RoleId = "447b3ca6-bd0b-4e83-baf9-2de7069c10c5"
-                        },
-                        new
-                        {
-                            UserId = "bce2fa92-4ec6-4bc1-87f1-ba64f25fc5b8",
-                            RoleId = "447b3ca6-bd0b-4e83-baf9-2de7069c10c5"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

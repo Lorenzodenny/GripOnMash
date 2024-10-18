@@ -12,5 +12,28 @@ global using GripOnMash.Models.IdentityModel;
 global using GripOnMash.Shared;
 global using GripOnMash.DataAccess;
 global using GripOnMash.SeedData;
+global using Microsoft.AspNetCore.Mvc;
+global using GripOnMash.Services;
+global using GripOnMash.Shared.Authentication;
+global using System.Reflection.PortableExecutable;
+global using Microsoft.Extensions.Logging;
+global using System.DirectoryServices;
+global using Microsoft.AspNetCore.Authentication;
+global using System.Security.Claims;
+global using DWHErrorOr;
+global using DashboardCCA.Api.Features.Authentication;
+global using Microsoft.AspNetCore.Authentication.Cookies;
+
+
+
+
+
+
+
+
+
+
+
+
 
 

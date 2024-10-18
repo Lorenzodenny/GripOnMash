@@ -9,9 +9,32 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 // Registro il servizio di Identity, che ci dà la possibilità di utilizzare tutte le funzionalità di identity 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.SignIn.RequireConfirmedEmail = false; 
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
+
+
+// Registro lo schema dei cookie
+builder.Services.AddAuthentication(options =>
+{
+    // schema predefinito per Identity
+    options.DefaultScheme = IdentityConstants.ApplicationScheme;
+})
+.AddCookie("CookieAuth", options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.Cookie.Name = "auth_cookie_grip_on_mash";
+    options.ExpireTimeSpan = TimeSpan.FromHours(1);
+    options.SlidingExpiration = true;
+});
+
+// Registro il servizio LDAP e le configurazioni
+builder.Services.AddSingleton<LdapConfig>();
+builder.Services.AddScoped<LoginService>();
 
 
 var app = builder.Build();

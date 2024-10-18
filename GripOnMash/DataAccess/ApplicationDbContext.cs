@@ -6,6 +6,7 @@
 
         public required DbSet<InternalUser> InternalUsers { get; init; }
         public required DbSet<InternalUserRole> InternalUserRoles { get; init; }
+        public required DbSet<InternalUserAccess> InternalUserAccess { get; init; }
         public DbSet<Agenda> Agende { get; init; }
         public DbSet<Appuntamento> Appuntamenti { get; init; }
         public DbSet<NumeroPrenotazione> NumeroPrenotazioni { get; init; }
@@ -18,6 +19,7 @@
             base.OnModelCreating(modelBuilder);
             modelBuilder.SeedRoles();
             modelBuilder.SeedInternalUsers();
+            modelBuilder.SeedMediciBase();
 
             // Configurazione della struttura delle tabelle
             TableStructure.Configure(modelBuilder);
