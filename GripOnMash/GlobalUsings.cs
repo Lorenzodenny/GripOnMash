@@ -28,6 +28,8 @@ global using GripOnMash.ViewModel;
 global using Microsoft.AspNetCore.Authorization;
 global using System.Net.Mail;
 global using System.Net;
+global using FluentValidation;
+
 
 
 

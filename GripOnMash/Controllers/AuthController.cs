@@ -22,21 +22,26 @@
         }
 
         [HttpPost] // LOGIN IDENTITY PER MEDICI DI BASE
-        public async Task<IActionResult> Login(string input, string password)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (IsEmail(input))
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            if (IsEmail(model.Input))
             {
                 ApplicationUser user = null;
 
                 // Cerca l'utente tramite email o username
-                if (IsEmail(input))
+                if (IsEmail(model.Input))
                 {
-                    user = await _userManager.FindByEmailAsync(input);
+                    user = await _userManager.FindByEmailAsync(model.Input);
                 }
                 else
                 {
                     // Se non è un'email, consideriamo che sia un UserName
-                    user = await _userManager.FindByNameAsync(input);
+                    user = await _userManager.FindByNameAsync(model.Input);
                 }
 
                 if (user == null)
@@ -46,7 +51,7 @@
                 }
 
                 // Verifica il risultato di PasswordSignInAsync
-                var result = await _signInManager.PasswordSignInAsync(user.UserName, password, isPersistent: false, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, isPersistent: false, lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {
@@ -61,13 +66,13 @@
             }
             else // LOGIN LDAP PER GLI INTERNI
             {
-                var ldapAuthenticated = await LoginService.LoginLdap(input, password);
+                var ldapAuthenticated = await LoginService.LoginLdap(model.Input, model.Password);
                 if (ldapAuthenticated)
                 {
                     // Recupera l'utente dal database
                     var user = await _context.InternalUsers
                         .Include(u => u.InternalUserRoles)
-                        .FirstOrDefaultAsync(u => u.Matricola == input);
+                        .FirstOrDefaultAsync(u => u.Matricola == model.Input);
 
                     if (user is null)
                         return NotFound(AuthenticationError.UserNotFound.ToString());
@@ -120,15 +125,54 @@
         {
             return input.Contains("@");
         }
-
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
+            // Verifica se l'utente è autenticato tramite LDAP
+            if (User.Identity.IsAuthenticated && User.IsInRole("Admin")) //&& User.Claims.Any(c => c.Issuer == "LdapAuth")) // Controllo aggiuntivo per vedere se è autenticato con il cookie LdapAuth
+            {
+                // Recupera la matricola dell'utente LDAP
+                var matricola = User.FindFirstValue(ClaimTypes.Name);
+
+                if (string.IsNullOrWhiteSpace(matricola))
+                {
+                    return BadRequest(AuthenticationError.UserNotFound.ToString());
+                }
+                if (!string.IsNullOrWhiteSpace(matricola))
+                {
+                    // Prende l'accesso più recente
+                    var internalUserAccess = await _context.InternalUserAccess
+                        .AsNoTracking()
+                        .Where(i => i.Matricola == matricola && i.Uscita == null)
+                        .OrderByDescending(i => i.Accesso) 
+                        .FirstOrDefaultAsync();
+
+                    if (internalUserAccess == null)
+                    {
+                        return NotFound(AuthenticationError.LogoutSessionNotFound.ToString());
+                    }
+
+                    if (internalUserAccess != null)
+                    {
+                        // traccia il logout
+                        internalUserAccess.Uscita = DateTime.Now;
+                        _context.Update(internalUserAccess);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
+                // Elimina i cookie dell'autenticazione LDAP
+                await HttpContext.SignOutAsync("CookieAuth");
+            }
+
+            // Effettua il logout per gli utenti Identity
             await _signInManager.SignOutAsync();
+
             Console.WriteLine("Logout effettuato con successo");
+
             return RedirectToAction("Login", "Auth");
         }
     }
-
 }

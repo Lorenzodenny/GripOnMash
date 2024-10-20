@@ -1,11 +1,17 @@
-﻿<form method="post" asp-action="Login">
-    <div>
-        <label for="input">Email o Matricola</label>
-        <input type="text" id="input" name="input" />
+﻿@model LoginViewModel
+
+<form asp-action="Login" method="post">
+    <div class="form-group">
+        <label asp-for="Input">Email o Matricola</label>
+        <input asp-for="Input" class="form-control" />
+        <span asp-validation-for="Input" class="text-danger"></span>
     </div>
-    <div>
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" />
+
+    <div class="form-group">
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" class="form-control" type="password" />
+        <span asp-validation-for="Password" class="text-danger"></span>
     </div>
-    <button type="submit">Login</button>
+
+    <button type="submit" class="btn btn-primary">Login</button>
 </form>

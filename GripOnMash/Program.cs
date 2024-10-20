@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using GripOnMash.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +20,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+// Registro il fluent validation
+var assembly = typeof(Program).Assembly;
+
+builder.Services.AddValidatorsFromAssembly(assembly);
 
 
 // Registro lo schema dei cookie
@@ -40,6 +46,7 @@ builder.Services.AddScoped<LoginService>();
 
 // Registro il servizio per invio delle email
 builder.Services.AddTransient<EmailService>();
+
 
 
 var app = builder.Build();
