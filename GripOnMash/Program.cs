@@ -26,7 +26,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddCookie("CookieAuth", options =>
 {
-    options.LoginPath = "/Account/Login";
+    options.LoginPath = "/Auth/Login";
     options.Cookie.Name = "auth_cookie_grip_on_mash";
     options.ExpireTimeSpan = TimeSpan.FromHours(1);
     options.SlidingExpiration = true;

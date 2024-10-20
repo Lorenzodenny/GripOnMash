@@ -25,10 +25,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <!-- login -->
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                        </li>
+
+                        <!-- Partiam view per Login, Logount e creazione nuovo profilo per l'admin -->
+                        @await Html.PartialAsync("_LoginPartial")
                     </ul>
                 </div>
             </div>

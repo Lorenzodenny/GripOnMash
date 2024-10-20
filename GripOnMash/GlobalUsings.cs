@@ -23,6 +23,12 @@ global using System.Security.Claims;
 global using DWHErrorOr;
 global using DashboardCCA.Api.Features.Authentication;
 global using Microsoft.AspNetCore.Authentication.Cookies;
+global using GripOnMash.Shared.Utilities;
+global using GripOnMash.ViewModel;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
+
+
 
 
 

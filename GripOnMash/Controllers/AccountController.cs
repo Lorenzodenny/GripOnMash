@@ -1,127 +1,194 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace GripOnMash.Controllers
+﻿namespace GripOnMash.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly LoginService _ldapService;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;  
 
 
-        public AccountController(LoginService ldapService, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
-            _ldapService = ldapService ?? throw new ArgumentNullException(nameof(ldapService)); ;
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+
+       // [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult CreateUser()
         {
             return View();
+        }
+
+        //  [Authorize(Roles = "Admin")]
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateUser(CreateUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Genera una password casuale
+                    string randomPassword = PasswordGenerator.GenerateRandomPassword();
+                    Console.WriteLine("PASSWORD GENERATA: " + randomPassword, ConsoleColor.Green);
+
+                    // Crea l'utente
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.UserName,
+                        Email = model.Email,
+                        PhoneNumber = model.PhoneNumber
+                    };
+
+                    var result = await _userManager.CreateAsync(user, randomPassword);
+
+                    if (result.Succeeded)
+                    {
+
+                        var roleResult = await _userManager.AddToRoleAsync(user, "User");
+
+                        if (roleResult.Succeeded)
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            foreach (var error in roleResult.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Errore durante la creazione dell'utente: " + ex.Message);
+                    ModelState.AddModelError("", "Si è verificato un errore durante la creazione dell'utente.");
+                }
+            }
+
+            return View(model);
+        }
+
+
+
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Edit()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var model = new EditAccountViewModel
+            {
+                UserName = user.UserName,
+                Email = user.Email
+            };
+
+            return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string input, string password)
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(EditAccountViewModel model)
         {
-            if (IsEmail(input))
+            if (!ModelState.IsValid)
             {
-                ApplicationUser user = null;
-
-                // Cerca l'utente tramite email o username
-                if (IsEmail(input))
-                {
-                    user = await _userManager.FindByEmailAsync(input);
-                }
-                else
-                {
-                    // Se non è un'email, consideriamo che sia un UserName
-                    user = await _userManager.FindByNameAsync(input);
-                }
-
-                if (user == null)
-                {
-                    ModelState.AddModelError("", "Utente non trovato.");
-                    return View();
-                }
-
-                // Verifica il risultato di PasswordSignInAsync
-                var result = await _signInManager.PasswordSignInAsync(user.UserName, password, isPersistent: false, lockoutOnFailure: false);
-
-                if (result.Succeeded)
-                {
-                    Console.WriteLine("Login riuscito");
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-
-                    ModelState.AddModelError("", "Tentativo di accesso non valido.");
-                }
+                return View(model);
             }
-            else
+
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
             {
-                var ldapAuthenticated = await LoginService.LoginLdap(input, password);
-                if (ldapAuthenticated)
+                return NotFound();
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.UserName) && model.UserName != user.UserName)
+            {
+                user.UserName = model.UserName;
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.Email) && model.Email != user.Email)
+            {
+                user.Email = model.Email;
+            }
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
                 {
-                    // Recupera l'utente dal database
-                    var user = await _context.InternalUsers
-                        .Include(u => u.InternalUserRoles)
-                        .FirstOrDefaultAsync(u => u.Matricola == input);
+                    ModelState.AddModelError("", error.Description);
+                }
+                return View(model);
+            }
 
-                    if (user is null)
-                        return NotFound(AuthenticationError.UserNotFound.ToString());
-                    if (!user.IsEnabled)
-                        return BadRequest(AuthenticationError.UserNotEnable.ToString());
+            // Gestione Password
+            if (!string.IsNullOrWhiteSpace(model.CurrentPassword) && !string.IsNullOrWhiteSpace(model.NewPassword))
+            {
+                if (model.NewPassword != model.ConfirmPassword)
+                {
+                    ModelState.AddModelError("", "La nuova password e la conferma non coincidono.");
+                    return View(model);
+                }
 
-                    // Crea la sessione/cookie per l'utente LDAP autenticato
-                    var claims = new List<Claim>
+                var passwordChangeResult = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                if (!passwordChangeResult.Succeeded)
+                {
+                    foreach (var error in passwordChangeResult.Errors)
                     {
-                        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                        new Claim(ClaimTypes.Name, user.Matricola)
-                    };
-
-                    // Aggiungi i ruoli come claim
-                    foreach (var role in user.InternalUserRoles)
-                    {
-                        claims.Add(new Claim(ClaimTypes.Role, role.RoleId));
+                        ModelState.AddModelError("", error.Description);
                     }
-
-                    var claimsIdentity = new ClaimsIdentity(claims, "LdapAuth");
-                    var authProperties = new AuthenticationProperties
-                    {
-                        IsPersistent = true // Imposta la sessione persistente o no
-                    };
-
-                    // Effettua il login utilizzando i cookie di autenticazione con lo schema CookieAuth in progrma.cs
-                    await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);
-
-                    // Traccia l'accesso del login dell'interno
-                    var accesso = new InternalUserAccess(0,
-                        user.Matricola,
-                        DateTime.Now,
-                        null,
-                        DateTime.Now.AddHours(1),
-                        null);
-
-                    _context.InternalUserAccess.Add(accesso);
-
-                    await _context.SaveChangesAsync();
-
-                    return RedirectToAction("Index", "Home");
+                    return View(model);
                 }
-                ModelState.AddModelError("", "Tentativo di accesso con Ldap non valido.");
             }
 
-            return View();
+            // Mantiene l'utente autenticato dopo l'aggiornamento
+            await _signInManager.RefreshSignInAsync(user);  
+            return RedirectToAction("Index", "Home");
         }
 
-        private bool IsEmail(string input)
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteAccount()
         {
-            return input.Contains("@");
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                await _signInManager.SignOutAsync();  // Logout
+                return RedirectToAction("Login", "Auth");  
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View("Edit");  
         }
     }
 }
