@@ -1,21 +1,25 @@
-﻿namespace GripOnMash.Controllers
+﻿using GripOnMash.Service;
+
+namespace GripOnMash.Controllers
 {
     public class AccountController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationDbContext _context;  
+        private readonly ApplicationDbContext _context;
+        private readonly EmailService _emailService;
 
 
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context, EmailService emailService)
         {
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
         }
 
 
-       // [Authorize(Roles = "Admin")]
+        // [Authorize(Roles = "Admin")]
         [Authorize]
         [HttpGet]
         public IActionResult CreateUser()
@@ -54,6 +58,32 @@
 
                         if (roleResult.Succeeded)
                         {
+                            // Invia email con la password
+                            if (!string.IsNullOrWhiteSpace(model.Email))
+                            {
+                                string subject = "Benvenuto! Il tuo account è stato creato";
+                                string body = $"Ciao {user.UserName},<br><br>La tua password temporanea è: <strong>{randomPassword}</strong><br>Per favore, effettua il login e cambia la tua password al più presto.";
+
+                                await _emailService.SendEmailAsync(model.Email, subject, body);
+                                Console.WriteLine("Email inviata a: " + model.Email);
+                            }
+
+                            // Genera il token di conferma email
+                            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            var confirmationLink = Url.Action("ConfirmEmail", "Email",
+                                new { userId = user.Id, token = token }, Request.Scheme);
+
+                            // Link per la compilazione del form anagrafico (per ora placeholder)
+                            var anagraficaLink = Url.Action("CompilaAnagrafica", "Anagrafica", null, Request.Scheme);
+
+                            // Invia la seconda email con i due link
+                            string confirmationSubject = "Conferma il tuo account";
+                            string confirmationBody = $"Ciao {user.UserName},<br><br>Per favore, <a href='{confirmationLink}'>conferma la tua email</a> per attivare il tuo account.<br><br>" +
+                                $"Dopo aver confermato la tua email, <a href='{anagraficaLink}'>compila il form anagrafico</a> per completare il profilo.";
+
+                            await _emailService.SendEmailAsync(model.Email, confirmationSubject, confirmationBody);
+                            Console.WriteLine("Email di conferma inviata a: " + model.Email);
+
                             return RedirectToAction("Index", "Home");
                         }
                         else

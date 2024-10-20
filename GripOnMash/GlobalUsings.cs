@@ -26,7 +26,10 @@ global using Microsoft.AspNetCore.Authentication.Cookies;
 global using GripOnMash.Shared.Utilities;
 global using GripOnMash.ViewModel;
 global using Microsoft.AspNetCore.Authorization;
-global using Microsoft.AspNetCore.Mvc;
+global using System.Net.Mail;
+global using System.Net;
+
+
 
 
 

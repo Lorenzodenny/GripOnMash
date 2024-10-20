@@ -1,3 +1,5 @@
+using GripOnMash.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -35,6 +37,9 @@ builder.Services.AddAuthentication(options =>
 // Registro il servizio LDAP e le configurazioni
 builder.Services.AddSingleton<LdapConfig>();
 builder.Services.AddScoped<LoginService>();
+
+// Registro il servizio per invio delle email
+builder.Services.AddTransient<EmailService>();
 
 
 var app = builder.Build();
