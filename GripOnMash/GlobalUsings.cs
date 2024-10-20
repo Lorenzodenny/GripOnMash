@@ -29,6 +29,10 @@ global using Microsoft.AspNetCore.Authorization;
 global using System.Net.Mail;
 global using System.Net;
 global using FluentValidation;
+global using FluentValidation.AspNetCore;
+global using GripOnMash.Service;
+
+
 
 
 

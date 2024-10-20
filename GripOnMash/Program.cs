@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using GripOnMash.FluentValidator;
 using GripOnMash.Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,15 +16,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Registro il servizio di Identity, che ci dà la possibilità di utilizzare tutte le funzionalità di identity 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    options.SignIn.RequireConfirmedEmail = false; 
+    options.SignIn.RequireConfirmedEmail = true; 
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-// Registro il fluent validation
-var assembly = typeof(Program).Assembly;
+// Registro fluent validation
+builder.Services.AddFluentValidationAutoValidation()
+                .AddFluentValidationClientsideAdapters();
 
-builder.Services.AddValidatorsFromAssembly(assembly);
+// Registro tutti i validation nell'assembly di program
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
 
 
 // Registro lo schema dei cookie

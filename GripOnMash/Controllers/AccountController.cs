@@ -1,4 +1,5 @@
-﻿using GripOnMash.Service;
+﻿using FluentValidation;
+using GripOnMash.Service;
 
 namespace GripOnMash.Controllers
 {
@@ -8,14 +9,18 @@ namespace GripOnMash.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
         private readonly EmailService _emailService;
+        private readonly IValidator<EditAccountViewModel> _editAccountValidator;
+        private readonly IValidator<CreateUserViewModel> _createUserValidator;
 
 
-        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context, EmailService emailService)
+        public AccountController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context, EmailService emailService, IValidator<EditAccountViewModel> editAccountValidator, IValidator<CreateUserViewModel> createUserValidator)
         {
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
+            _editAccountValidator = editAccountValidator ?? throw new ArgumentNullException(nameof(editAccountValidator));
+            _createUserValidator = createUserValidator ?? throw new ArgumentNullException(nameof(createUserValidator));
         }
 
 
@@ -33,7 +38,9 @@ namespace GripOnMash.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateUser(CreateUserViewModel model)
         {
-            if (ModelState.IsValid)
+
+            var validationResult = await _createUserValidator.ValidateAsync(model);
+            if (validationResult.IsValid)
             {
                 try
                 {
@@ -139,8 +146,9 @@ namespace GripOnMash.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(EditAccountViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
+            var validationResult = await _editAccountValidator.ValidateAsync(model);
+            if (validationResult.IsValid)
+            { 
                 return View(model);
             }
 
