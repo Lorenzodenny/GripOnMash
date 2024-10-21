@@ -38,7 +38,7 @@ namespace GripOnMash.Controllers
             return View(model); 
         }
 
-        // Salva i dati anagrafici
+        // Salva i dati anagrafici ciao
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CompilaAnagrafica(MedicoBaseAnagraficaViewModel model)
