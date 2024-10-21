@@ -1,23 +1,17 @@
-﻿using GripOnMash.Service;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
-namespace GripOnMash.Controllers
+﻿namespace GripOnMash.Controllers
 {
-    public class EmailController : Controller
+    public class ConfirmEmail : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
-
-        public EmailController(UserManager<ApplicationUser> userManager)
+        public ConfirmEmail(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-           
+
         }
 
         [HttpGet]
-        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        public async Task<IActionResult> ConfermaEmail(string userId, string token)
         {
             if (userId == null || token == null)
             {
@@ -33,7 +27,7 @@ namespace GripOnMash.Controllers
             var result = await _userManager.ConfirmEmailAsync(user, token);
             if (result.Succeeded)
             {
-                return View("ConfirmEmail", "Email");  
+                return View("ConfermaEmail", "ConfirmEmail");
             }
 
             foreach (var error in result.Errors)
@@ -41,7 +35,7 @@ namespace GripOnMash.Controllers
                 ModelState.AddModelError("", error.Description);
             }
 
-            return View("Error");  
+            return View("Error");
         }
 
     }

@@ -1,13 +1,15 @@
-﻿namespace GripOnMash.Controllers
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace GripOnMash.Controllers
 {
-    public class AuthController : Controller
+    public class LoginController : Controller
     {
         private readonly LoginService _ldapService;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public AuthController(LoginService ldapService, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public LoginController(LoginService ldapService, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _ldapService = ldapService ?? throw new ArgumentNullException(nameof(ldapService)); ;
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
@@ -31,7 +33,7 @@
 
             if (IsEmail(model.Input))
             {
-                ApplicationUser user = null;
+                ApplicationUser? user = null;
 
                 // Cerca l'utente tramite email o username
                 if (IsEmail(model.Input))
@@ -41,10 +43,16 @@
                 else
                 {
                     // Se non è un'email, consideriamo che sia un UserName
-                    user = await _userManager.FindByNameAsync(model.Input);
+                    user = await _userManager.FindByNameAsync(model.Input); // giusto
                 }
 
-                if (user == null)
+                if (user is null) // is = a "==" piu performante
+                {
+                    ModelState.AddModelError("", "Utente non trovato.");
+                    return View();
+                }
+
+                if (string.IsNullOrEmpty(user.UserName))
                 {
                     ModelState.AddModelError("", "Utente non trovato.");
                     return View();
@@ -125,55 +133,6 @@
         private bool IsEmail(string input)
         {
             return input.Contains("@");
-        }
-      
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
-        {
-            // Verifica se l'utente è autenticato tramite LDAP
-            if (User.Identity.IsAuthenticated && User.IsInRole("Admin")) //&& User.Claims.Any(c => c.Issuer == "LdapAuth")) // Controllo aggiuntivo per vedere se è autenticato con il cookie LdapAuth
-            {
-                // Recupera la matricola dell'utente LDAP
-                var matricola = User.FindFirstValue(ClaimTypes.Name);
-
-                if (string.IsNullOrWhiteSpace(matricola))
-                {
-                    return BadRequest(AuthenticationError.UserNotFound.ToString());
-                }
-                if (!string.IsNullOrWhiteSpace(matricola))
-                {
-                    // Prende l'accesso più recente
-                    var internalUserAccess = await _context.InternalUserAccess
-                        .AsNoTracking()
-                        .Where(i => i.Matricola == matricola && i.Uscita == null)
-                        .OrderByDescending(i => i.Accesso) 
-                        .FirstOrDefaultAsync();
-
-                    if (internalUserAccess == null)
-                    {
-                        return NotFound(AuthenticationError.LogoutSessionNotFound.ToString());
-                    }
-
-                    if (internalUserAccess != null)
-                    {
-                        // traccia il logout (Uscita)
-                        internalUserAccess.Uscita = DateTime.Now;
-                        _context.Update(internalUserAccess);
-                        await _context.SaveChangesAsync();
-                    }
-                }
-
-                // Elimina i cookie dell'autenticazione LDAP
-                await HttpContext.SignOutAsync("CookieAuth");
-            }
-
-            // Effettua il logout per gli utenti Identity
-            await _signInManager.SignOutAsync();
-
-            Console.WriteLine("Logout effettuato con successo");
-
-            return RedirectToAction("Login", "Auth");
         }
     }
 }

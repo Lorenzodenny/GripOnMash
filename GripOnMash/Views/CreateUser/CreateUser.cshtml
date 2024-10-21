@@ -2,7 +2,7 @@
 
 <h2>Crea un nuovo utente</h2>
 
-<form asp-action="CreateUser" method="post">
+<form asp-controller="CreateUser" asp-action="CreateUser" method="post">
     <div class="form-group">
         <label asp-for="UserName">Nome Utente</label>
         <input asp-for="UserName" class="form-control" />

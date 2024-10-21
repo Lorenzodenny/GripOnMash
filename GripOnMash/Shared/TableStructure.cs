@@ -130,6 +130,11 @@
                     .IsUnicode(false)
                     .IsRequired()
                     .HasMaxLength(500);
+                e.Property(d => d.DomandaTooltip)
+                    .IsUnicode(false)
+                    .HasMaxLength(500);
+                e.Property(d => d.DomandaInclusione)
+                    .IsRequired();
             });
 
             // Configurazione di Risposta
@@ -142,6 +147,26 @@
                     .HasMaxLength(500);
                 e.Property(r => r.IsCorretta)
                     .IsRequired();
+            });
+
+            // Configurazione di MailConfig
+            modelBuilder.Entity<MailConfig>(e =>
+            {
+                e.ToTable(TableName.MailConfig);  
+                e.Property(mc => mc.Host)
+                    .IsRequired()
+                    .HasMaxLength(100);  
+                e.Property(mc => mc.Port)
+                    .IsRequired();
+                e.Property(mc => mc.FromAddress)
+                    .IsRequired()
+                    .HasMaxLength(100);  
+                e.Property(mc => mc.Username)
+                    .HasMaxLength(100);  
+                e.Property(mc => mc.Password)
+                    .HasMaxLength(100);  
+                e.Property(mc => mc.EnableSsl)
+                    .IsRequired();  
             });
 
         }

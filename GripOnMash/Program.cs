@@ -1,8 +1,3 @@
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using GripOnMash.FluentValidator;
-using GripOnMash.Service;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -16,7 +11,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // Registro il servizio di Identity, che ci dà la possibilità di utilizzare tutte le funzionalità di identity 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    options.SignIn.RequireConfirmedEmail = true; 
+    // Password settings
+    options.SignIn.RequireConfirmedEmail = true;
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireLowercase = false;
+
+    // User settings
+    options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedEmail = true;
+    options.SignIn.RequireConfirmedAccount = true;
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
@@ -38,7 +44,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddCookie("CookieAuth", options =>
 {
-    options.LoginPath = "/Auth/Login";
+    options.LoginPath = "/Login/Login";
     options.Cookie.Name = "auth_cookie_grip_on_mash";
     options.ExpireTimeSpan = TimeSpan.FromHours(1);
     options.SlidingExpiration = true;
@@ -50,6 +56,10 @@ builder.Services.AddScoped<LoginService>();
 
 // Registro il servizio per invio delle email
 builder.Services.AddTransient<EmailService>();
+
+// Registro l'EmailHelper
+builder.Services.AddScoped<EmailHelper>();
+//builder.Services.AddTransient<EmailService>();
 
 
 

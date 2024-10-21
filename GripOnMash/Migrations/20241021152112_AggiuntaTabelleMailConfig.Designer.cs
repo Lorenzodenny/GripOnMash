@@ -4,6 +4,7 @@ using GripOnMash.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GripOnMash.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241021152112_AggiuntaTabelleMailConfig")]
+    partial class AggiuntaTabelleMailConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -90,16 +93,7 @@ namespace GripOnMash.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DomandaId"));
 
-                    b.Property<bool>("DomandaInclusione")
-                        .HasColumnType("bit");
-
                     b.Property<string>("DomandaTesto")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<string>("DomandaTooltip")
                         .IsRequired()
                         .HasMaxLength(500)
                         .IsUnicode(false)
@@ -177,33 +171,33 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "53ddc85d-1ce0-4d79-a6de-152640963a45",
+                            Id = "a16e308b-8c8e-47c1-ba1e-76f735a88717",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5da47903-a7ba-4fef-a4ac-f12b2fb9309a",
+                            ConcurrencyStamp = "16c00b62-7bb2-4579-b891-a5b35249433b",
                             Email = "medicobase1@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "MEDICOBASE1@GMAIL.COM",
                             NormalizedUserName = "MEDICOBASE1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBdmSWwSV0Jn8hlxvGoy2N0YbEDKbHoWzOOeFMZ1UiY6NXuDqQph4Usk2LRDv3436A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEG+xzw75K4dFPbb8Zc4/+Blc0obtDFU2AwkNxcfoaegy0xrkNT5RI2IxGn14w8Es5g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b764f436-4eff-40a2-aadd-328bcc45cb04",
+                            SecurityStamp = "a3500f2e-8a95-4bb2-91dc-5c03992cf1e0",
                             TwoFactorEnabled = false,
                             UserName = "medicoBase1"
                         },
                         new
                         {
-                            Id = "9415016f-793e-416e-8b00-ec29a3deec3a",
+                            Id = "d49005a7-109c-46b8-8771-7e31cab9d086",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "78e1f4ce-69c9-4f55-a252-291230843e57",
+                            ConcurrencyStamp = "89a7104c-a1fd-44e1-b545-18db34949ef3",
                             Email = "medicobase2@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "MEDICOBASE2@GMAIL.COM",
                             NormalizedUserName = "MEDICOBASE2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEILq5rO2htPJ53SqXfs1x5okAuS3q03RjmQWoY2p+iEWPNlTnFk1ykaxp8Ou5t4HNg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEE4LcDWK7qB4NYBXhnH3PmkPAWYLmDU2w9PJ55DL7EvNfP8hHaXwMjqo53sYurzXWg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e20ded94-46f4-47a7-8149-3dacd74400fa",
+                            SecurityStamp = "b9677524-8d43-4604-921c-d308e5b49161",
                             TwoFactorEnabled = false,
                             UserName = "medicoBase2"
                         });
@@ -243,7 +237,7 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("744a6fb3-748e-4e05-90e8-ff6c6d84136c"),
+                            Id = new Guid("666aa5a3-f617-4bff-9713-706b55cffb4e"),
                             Cognome = "Silveri",
                             IsEnabled = true,
                             Matricola = "sb004193",
@@ -251,7 +245,7 @@ namespace GripOnMash.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e2cb01ba-b0d4-4d53-9ecc-9cb7ebbec716"),
+                            Id = new Guid("cfc10aaf-713d-40d9-879e-8a8e8dcbfec3"),
                             Cognome = "Picchi",
                             IsEnabled = true,
                             Matricola = "00665539",
@@ -259,7 +253,7 @@ namespace GripOnMash.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3d301790-77a4-4797-b839-84468c2600d0"),
+                            Id = new Guid("c446af30-a060-466e-9419-2200fc86ee52"),
                             Cognome = "Rossi",
                             IsEnabled = true,
                             Matricola = "sb004194",
@@ -316,17 +310,17 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            InternalUserId = new Guid("744a6fb3-748e-4e05-90e8-ff6c6d84136c"),
+                            InternalUserId = new Guid("666aa5a3-f617-4bff-9713-706b55cffb4e"),
                             RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
                         },
                         new
                         {
-                            InternalUserId = new Guid("e2cb01ba-b0d4-4d53-9ecc-9cb7ebbec716"),
+                            InternalUserId = new Guid("cfc10aaf-713d-40d9-879e-8a8e8dcbfec3"),
                             RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
                         },
                         new
                         {
-                            InternalUserId = new Guid("3d301790-77a4-4797-b839-84468c2600d0"),
+                            InternalUserId = new Guid("c446af30-a060-466e-9419-2200fc86ee52"),
                             RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
                         });
                 });
@@ -414,7 +408,7 @@ namespace GripOnMash.Migrations
                             Cognome = "Verdi",
                             EmailPersonale = "giuseppe.verdi@gmail.com",
                             Eta = 45,
-                            IdentityId = "53ddc85d-1ce0-4d79-a6de-152640963a45",
+                            IdentityId = "a16e308b-8c8e-47c1-ba1e-76f735a88717",
                             Indirizzo = "Via Roma 1, Milano",
                             Nome = "Giuseppe",
                             NumeroAlbo = "12345MI",
@@ -429,7 +423,7 @@ namespace GripOnMash.Migrations
                             Cognome = "Bianchi",
                             EmailPersonale = "francesca.bianchi@gmail.com",
                             Eta = 38,
-                            IdentityId = "9415016f-793e-416e-8b00-ec29a3deec3a",
+                            IdentityId = "d49005a7-109c-46b8-8771-7e31cab9d086",
                             Indirizzo = "Via Torino 10, Torino",
                             Nome = "Francesca",
                             NumeroAlbo = "67890TO",
@@ -658,12 +652,12 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "53ddc85d-1ce0-4d79-a6de-152640963a45",
+                            UserId = "a16e308b-8c8e-47c1-ba1e-76f735a88717",
                             RoleId = "447b3ca6-bd0b-4e83-baf9-2de7069c10c5"
                         },
                         new
                         {
-                            UserId = "9415016f-793e-416e-8b00-ec29a3deec3a",
+                            UserId = "d49005a7-109c-46b8-8771-7e31cab9d086",
                             RoleId = "447b3ca6-bd0b-4e83-baf9-2de7069c10c5"
                         });
                 });
