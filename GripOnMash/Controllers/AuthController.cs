@@ -101,7 +101,7 @@
                     // Effettua il login utilizzando i cookie di autenticazione con lo schema CookieAuth in progrma.cs
                     await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);
 
-                    // Traccia l'accesso del login dell'interno
+                    // Traccia il login (Entrata)
                     var accesso = new InternalUserAccess(0,
                         user.Matricola,
                         DateTime.Now,
@@ -115,6 +115,7 @@
 
                     return RedirectToAction("Index", "Home");
                 }
+                Console.WriteLine("Tentativo di login con LDAP non valido");
                 ModelState.AddModelError("", "Tentativo di accesso con Ldap non valido.");
             }
 
@@ -156,7 +157,7 @@
 
                     if (internalUserAccess != null)
                     {
-                        // traccia il logout
+                        // traccia il logout (Uscita)
                         internalUserAccess.Uscita = DateTime.Now;
                         _context.Update(internalUserAccess);
                         await _context.SaveChangesAsync();
