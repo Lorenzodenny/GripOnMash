@@ -144,64 +144,77 @@ namespace GripOnMash.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditAccountViewModel model)
+        public async Task<IActionResult> Edit(EditAccountViewModel model, string formType)
         {
-            var validationResult = await _editAccountValidator.ValidateAsync(model);
-            if (validationResult.IsValid)
-            { 
-                return View(model);
-            }
-
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return NotFound();
             }
 
-            if (!string.IsNullOrWhiteSpace(model.UserName) && model.UserName != user.UserName)
+            if (formType == "account")
             {
-                user.UserName = model.UserName;
-            }
-
-            if (!string.IsNullOrWhiteSpace(model.Email) && model.Email != user.Email)
-            {
-                user.Email = model.Email;
-            }
-
-            var result = await _userManager.UpdateAsync(user);
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
+                if (!ModelState.IsValid)
                 {
-                    ModelState.AddModelError("", error.Description);
-                }
-                return View(model);
-            }
-
-            // Gestione Password
-            if (!string.IsNullOrWhiteSpace(model.CurrentPassword) && !string.IsNullOrWhiteSpace(model.NewPassword))
-            {
-                if (model.NewPassword != model.ConfirmPassword)
-                {
-                    ModelState.AddModelError("", "La nuova password e la conferma non coincidono.");
                     return View(model);
                 }
 
-                var passwordChangeResult = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
-                if (!passwordChangeResult.Succeeded)
+                if (!string.IsNullOrWhiteSpace(model.UserName) && model.UserName != user.UserName)
                 {
-                    foreach (var error in passwordChangeResult.Errors)
+                    user.UserName = model.UserName;
+                }
+
+                if (!string.IsNullOrWhiteSpace(model.Email) && model.Email != user.Email)
+                {
+                    user.Email = model.Email;
+                }
+
+                var result = await _userManager.UpdateAsync(user);
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
                     }
                     return View(model);
                 }
+
+                // Mantiene l'utente autenticato dopo l'aggiornamento
+                await _signInManager.RefreshSignInAsync(user);
+                return RedirectToAction("Index", "Home");
+            }
+            else if (formType == "password")
+            {
+                if (!string.IsNullOrWhiteSpace(model.CurrentPassword) && !string.IsNullOrWhiteSpace(model.NewPassword))
+                {
+                    if (model.NewPassword != model.ConfirmPassword)
+                    {
+                        ModelState.AddModelError("", "La nuova password e la conferma non coincidono.");
+                        return View(model);
+                    }
+
+                    var passwordChangeResult = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                    if (!passwordChangeResult.Succeeded)
+                    {
+                        foreach (var error in passwordChangeResult.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                        return View(model);
+                    }
+
+                    // Mantiene l'utente autenticato dopo l'aggiornamento della password
+                    await _signInManager.RefreshSignInAsync(user);
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError("", "La password non può essere vuota.");
+                return View(model);
             }
 
-            // Mantiene l'utente autenticato dopo l'aggiornamento
-            await _signInManager.RefreshSignInAsync(user);  
-            return RedirectToAction("Index", "Home");
+            return BadRequest("Tipo di form non riconosciuto.");
         }
+
 
         [HttpPost]
         [Authorize]
