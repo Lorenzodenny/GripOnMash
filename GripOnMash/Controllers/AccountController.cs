@@ -80,8 +80,8 @@ namespace GripOnMash.Controllers
                             var confirmationLink = Url.Action("ConfirmEmail", "Email",
                                 new { userId = user.Id, token = token }, Request.Scheme);
 
-                            // Link per la compilazione del form anagrafico (per ora placeholder)
-                            var anagraficaLink = Url.Action("CompilaAnagrafica", "Anagrafica", null, Request.Scheme);
+                            // Link per la compilazione del form anagrafico 
+                            var anagraficaLink = Url.Action("CompilaAnagrafica", "AnagraficaMedicoBase", null, Request.Scheme);
 
                             // Invia la seconda email con i due link
                             string confirmationSubject = "Conferma il tuo account";
