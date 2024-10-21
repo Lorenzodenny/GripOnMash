@@ -22,9 +22,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
+
+
+                        @* <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        </li> *@
 
                         <!-- Partiam view per Login, Logount e creazione nuovo profilo utente da parte admin -->
                         @await Html.PartialAsync("_LoginPartial")
@@ -33,16 +35,16 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="main-body-content p-2 p-lg-3 d-flex flex-column gap-2 gap-lg-3">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
+    <footer class="footer p-2 p-lg-3 d-flex flex-column flex-lg-row justify-content-lg-between align-items-lg-center justify-content-start align-items-start gap-2 gap-lg-3 position-absolute bottom-0 start-0 w-100">
+        <span class="container">
             &copy; 2024 - GripOnMash - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+        </span>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

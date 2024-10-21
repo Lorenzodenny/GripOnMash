@@ -1,4 +1,4 @@
-html {
+/*html {
   font-size: 14px;
 }
 
@@ -19,4 +19,538 @@ html {
 
 body {
   margin-bottom: 60px;
+}*/
+
+
+
+:root {
+    --blue-gemelli-a: #003057;
+    --blue-gemelli-b: #7c9ac0;
+    --blue-gemelli-c: #b7cbea;
+    --blue-gemelli-a1: #00609d;
+    --blue-gemelli-b1: #65b2e8;
+    --blue-gemelli-c1: #b8d8eb;
+    --header-lg: 69px;
+    --header-sm: 47.11px;
 }
+
+* {
+    margin: 0;
+    font-family: 'Calibri', sans-serif;
+    font-size: 14px;
+}
+
+a {
+    text-decoration: none;
+}
+
+html {
+}
+
+/*@media (min-width: 768px) {*/
+/*  html {*/
+/*    font-size: 16px;*/
+/*  }*/
+/*}*/
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    background-color: #F5F8FA;
+}
+
+body {
+    background-image: url("/images/bg-df.png");
+    background-color: #F5F8FA;
+}
+
+.rounded {
+    border-radius: 10px;
+}
+
+.rounded-sm {
+    border-radius: 5px;
+}
+
+.rounded-xs {
+    border-radius: 3px;
+}
+
+.rounded-lg {
+    border-radius: 15px;
+}
+
+.rounded-xl {
+    border-radius: 20px;
+}
+
+.rounded-full {
+    border-radius: 1000px;
+}
+
+.main-wrapper {
+    min-height: 100vh;
+}
+
+.blue-gemelli-a {
+    color: var(--blue-gemelli-a);
+}
+
+.blue-gemelli-b {
+    color: var(--blue-gemelli-b);
+}
+
+.blue-gemelli-c {
+    color: var(--blue-gemelli-c);
+}
+
+.blue-gemelli-a1 {
+    color: var(--blue-gemelli-a1);
+}
+
+.blue-gemelli-b1 {
+    color: var(--blue-gemelli-b1);
+}
+
+.blue-gemelli-c1 {
+    color: var(--blue-gemelli-c1);
+}
+
+.my-label {
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.slategray {
+    color: slategray;
+}
+
+
+@media screen and (max-width: 991px) {
+    .modifica-profilo-card, .reimposta-password-card, .genera-email-card, .signup-card, .update-password-card, .type-code-card, .conferma-otp-card, .non-autorizzato-card {
+        width: 100%;
+    }
+
+    .main-body-content {
+        min-height: calc(100vh - var(--header-sm));
+        padding-bottom: 100px !important;
+    }
+
+    .myButton {
+        width: 100%;
+    }
+}
+/*lg*/
+@media screen and (min-width: 992px) {
+    .main-login-wrapper {
+        min-height: calc(100vh - 153px);
+    }
+
+    .reimposta-password-card, .genera-email-card, .signup-card, .update-password-card, .type-code-card, .conferma-otp-card, .non-autorizzato-card {
+        width: 700px;
+        height: 450px;
+    }
+
+    .modifica-profilo-card {
+        width: 700px;
+    }
+
+    .main-body-content {
+        min-height: calc(100vh - var(--header-lg));
+        padding-bottom: 75px;
+    }
+
+    .myButton {
+        width: auto;
+    }
+}
+
+.text-error {
+    color: firebrick;
+}
+
+    .text-error:hover {
+        color: red;
+    }
+
+.validation-summary-errors {
+    display: none;
+}
+
+    .validation-summary-errors ul {
+        /* Your styles for error list */
+        list-style: none;
+        /* Additional styles */
+    }
+
+        .validation-summary-errors ul li {
+            /* Your styles for individual errors */
+            /* Additional styles */
+        }
+
+.btn-gemelli {
+    color: #fff;
+    background-color: var(--blue-gemelli-a);
+    border-color: var(--blue-gemelli-a);
+}
+
+    .btn-gemelli:hover {
+        color: #fff;
+        background-color: var(--blue-gemelli-a1);
+        border-color: var(--blue-gemelli-a1);
+    }
+
+    .btn-gemelli:focus {
+        color: #fff;
+        background-color: var(--blue-gemelli-a1);
+        border-color: var(--blue-gemelli-a1);
+        box-shadow: 0 0 0 0.25rem rgba(0, 96, 157, 0.5);
+    }
+
+.header {
+    background-color: white;
+    box-shadow: 0 10px 30px #523f690d;
+}
+
+.header-logo {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+    .header-logo:hover {
+        color: var(--blue-gemelli-a1);
+    }
+
+.header-menu-item {
+    padding: 5px 10px;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    font-size: 1.1rem;
+}
+
+    .header-menu-item:hover {
+        background-color: var(--blue-gemelli-c);
+    }
+
+.footer {
+    background-color: var(--blue-gemelli-a);
+    box-shadow: 0 10px 30px #523f690d;
+    color: white;
+    /*height: 53px;*/
+}
+
+/*login*/
+.kv {
+    min-height: 250px;
+    width: 100%;
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+.login-card {
+    background-color: white;
+    box-shadow: 0 10px 30px #523f690d;
+    width: 100%;
+    overflow: hidden;
+}
+
+.login-title {
+    font-size: 1.3rem;
+    color: var(--blue-gemelli-a);
+    font-weight: 600;
+}
+
+.separator.separator-content {
+    display: flex;
+    align-items: center;
+    border-bottom: 0;
+    text-align: center;
+}
+
+.separator {
+    display: block;
+    height: 0;
+    border-bottom: 1px solid #F2F5F6;
+}
+
+    .separator.separator-content::before {
+        margin-right: 1.25rem;
+    }
+
+    .separator.separator-content::after {
+        margin-left: 1.25rem;
+    }
+
+    .separator.separator-content::before, .separator.separator-content::after {
+        content: " ";
+        width: 50%;
+        border-bottom: 1px solid #F2F5F6;
+    }
+
+/*reimposta password*/
+.reimposta-password-card {
+    background-color: white;
+    box-shadow: 0 10px 30px #523f690d;
+}
+
+.reimposta-password-title {
+    font-size: 1.3rem;
+    color: var(--blue-gemelli-a);
+    font-weight: 600;
+}
+
+/*genera email*/
+.genera-email-card {
+    background-color: white;
+    box-shadow: 0 10px 30px #523f690d;
+}
+
+.genera-email-title {
+    font-size: 1.3rem;
+    color: var(--blue-gemelli-a);
+    font-weight: 600;
+}
+
+.modifica-profilo-card {
+    background-color: white;
+    box-shadow: 0 10px 30px #523f690d;
+}
+/*sign up*/
+.signup-card {
+    background-color: white;
+    box-shadow: 0 10px 30px #523f690d;
+}
+
+.signup-title {
+    font-size: 1.3rem;
+    color: var(--blue-gemelli-a);
+    font-weight: 600;
+}
+
+/*update password*/
+.update-password-card {
+    background-color: white;
+    box-shadow: 0 10px 30px #523f690d;
+}
+
+.update-password-title {
+    font-size: 1.3rem;
+    color: var(--blue-gemelli-a);
+    font-weight: 600;
+}
+
+/*type code*/
+.type-code-card {
+    background-color: white;
+    box-shadow: 0 10px 30px #523f690d;
+}
+
+.type-code-title {
+    font-size: 1.3rem;
+    color: var(--blue-gemelli-a);
+    font-weight: 600;
+}
+
+.choices-wrapper input[type="radio"] {
+    display: none;
+}
+
+.choices {
+    display: flex;
+    position: relative;
+    background-color: #fff;
+    box-shadow: inset 0 0 10px 2px rgba(0, 0, 0, 0.05);
+    padding: 0.75rem;
+    border-radius: 10px;
+}
+
+    .choices * {
+        z-index: 2;
+    }
+
+.choice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 100px;
+    font-size: 1rem;
+    color: black;
+    font-weight: 500;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.choices-wrapper input[type="radio"]:checked + label {
+    color: var(--blue-gemelli-a);
+}
+
+.choices-wrapper input[id="radio-phone"]:checked ~ .glider {
+    transform: translateX(0);
+}
+
+.choices-wrapper input[id="radio-email"]:checked ~ .glider {
+    transform: translateX(100%);
+}
+
+.glider {
+    position: absolute;
+    display: flex;
+    height: 40px;
+    width: 100px;
+    background-color: var(--blue-gemelli-c);
+    z-index: 1;
+    border-radius: 5px;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+/*conferma otp*/
+.conferma-otp-card {
+    background-color: white;
+    box-shadow: 0 10px 30px #523f690d;
+}
+
+.conferma-otp-title {
+    font-size: 1.3rem;
+    color: var(--blue-gemelli-a);
+    font-weight: 600;
+}
+
+/*elenco pazienti*/
+.elenco-pazienti-title {
+    font-size: 1.8rem;
+    color: var(--blue-gemelli-a);
+    font-weight: 500;
+}
+
+.elenco-pazienti-tabella-wrapper {
+    background-color: white;
+    box-shadow: 0 10px 30px #523f690d;
+}
+
+.elenco-pazienti {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #99a1b7;
+}
+
+/*gestione email*/
+.gestione-email-title {
+    font-size: 1.8rem;
+    color: var(--blue-gemelli-a);
+    font-weight: 500;
+}
+
+.gestione-email-tabella-wrapper {
+    background-color: white;
+    bax-shadow: 0 10px 30px #523f690d;
+}
+
+.elenco-email {
+    font-size: 1rem;
+    color: #99a1b7;
+}
+
+/*registrazione paziente*/
+.registrazione-paziente-title {
+    font-size: 1.8rem;
+    color: var(--blue-gemelli-a);
+    font-weight: 500;
+}
+
+.registrazione-pazienti-wrapper {
+    background-color: white;
+    box-shadow: 0 10px 30px #523f690d;
+}
+
+/*non autorizzato*/
+.non-autorizzato-card {
+    background-color: white;
+    box-shadow: 0 10px 30px #523f690d;
+}
+
+.non-autorizzato-title {
+    font-size: 1.8rem;
+    color: var(--blue-gemelli-a);
+    font-weight: 500;
+}
+
+.confirm-email-card {
+    background-color: white;
+    box-shadow: 0 10px 30px #523f690d;
+}
+
+.confirm-email-title {
+    font-size: 1.8rem;
+    color: var(--blue-gemelli-a);
+    font-weight: 500;
+}
+
+.confirm-email-subtitle {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.dettagli-container {
+    padding: 10px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+    .dettagli-container div {
+        margin-bottom: 5px;
+        box-sizing: border-box;
+    }
+
+    .dettagli-container label {
+        font-weight: bold;
+        margin-right: 5px;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .dettagli-container div {
+        width: 100%;
+    }
+
+.dettagli-container {
+    max-width: 100%;
+    overflow-wrap: break-word;
+}
+
+.riga-active {
+    background-color: #0d6efd;
+}
+
+    .riga-active > td {
+        color: white !important;
+    }
+
+.riga-paziente:hover {
+    background-color: #0d6efd;
+}
+
+    .riga-paziente:hover > td {
+        color: white !important;
+    }
+
+.contattaci {
+    color: white;
+}
+
+#toastMessage {
+    display: none;
+}
+
+#toastContainer {
+    z-index: 1;
+}
+

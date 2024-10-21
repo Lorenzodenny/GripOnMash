@@ -1,4 +1,136 @@
-﻿@model LoginViewModel
+﻿
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Accedi";
+    var errors = ViewData.ModelState.SelectMany(state => state.Value!.Errors);
+}
+
+<div class="container d-flex flex-column flex-grow-1 justify-content-center" style="margin-bottom: 53px">
+    <div class="d-flex position-relative flex-column-reverse flex-lg-row main-login-wrapper">
+        <div class="login-card rounded-lg d-flex flex-column-reverse flex-lg-row">
+            <div class="d-flex flex-column p-5 justify-content-center align-items-center">
+                <div class="d-flex flex-column align-items-center">
+                    <h2 class="fw-bold fs-4">Benvenuto su</h2>
+                    <h1 class="fw-light fs-1" style="color: var(--blue-gemelli-a);">GOM</h1>
+                </div>
+                <div style="width: 100%" class="mt-5">
+                    <div class="separator separator-content my-15">
+                        <span class="fs-7" style="width: 300px">Dettagli di login</span>
+                    </div>
+                </div>
+
+                <!-- Corrected Form -->
+                <form asp-action="Login" method="post" class="w-100 mt-3" autocomplete="off" id="processForm">
+                    <div class="d-flex flex-column gap-2 gap-lg-3 align-items-center mt-4 justify-content-center w-100">
+                        <div class="d-flex flex-column gap-1 w-100">
+                            <input asp-for="Input" placeholder="Email o Matricola" type="text" class="form-control" autofocus="true" />
+                            <span asp-validation-for="Input" class="text-error"></span>
+                        </div>
+                        <div class="d-flex flex-column gap-1 w-100">
+                            <input asp-for="Password" placeholder="Password" type="password" class="form-control" />
+                            <div class="d-flex gap-2">
+                                <input type="checkbox" id="show-password" class="form-check-input">
+                                <label for="show-password" class="form-check-label">Mostra Password</label>
+                            </div>
+                            <span asp-validation-for="Password" class="text-error"></span>
+                        </div>
+                        <button type="submit" class="btn btn-gemelli w-100" id="submitButton">Login</button>
+                        <input type="hidden" name="ReturnUrl" value="@ViewData["ReturnUrl"]" />
+                    </div>
+                </form>
+
+                @if (errors.Any())
+                    {
+                        <div class="d-flex flex-column gap-2 w-100 justify-content-start">
+                            @foreach (var error in errors)
+                            {
+                                <span class="text-error">@error.ErrorMessage</span>
+                            }
+                        </div>
+                    }
+                <!-- End of Form -->
+
+                <div class="d-flex flex-column flex-lg-row gap-2 mt-4 justify-content-start justify-content-lg-between align-items-start align-items-lg-center w-100">
+                    
+                    <a asp-controller="ForgottenPassword" asp-action="ForgottenPassword" class="link-secondary">Password dimenticata</a>
+                    
+                    @* <a asp-controller="GenerateNewConfirmationEmail" asp-action="GenerateNewConfirmationEmail" class="link-secondary">Genera nuova email di conferma</a> *@
+                </div>
+                @* <div class="d-flex flex-column gap-3 align-self-center mt-5">
+                    <small class="align-self-center">powered by</small>
+                    <img src="~/images/logo-placeholder.png" style="width:100px;" class="align-self-center" />
+                </div> *@
+            </div>
+            <div id="kv" class="kv"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        console.log('login script');
+
+        $().ready(function () {
+            console.log('login script ready');
+            var i = 0;
+
+            //   Background Images
+            var images = [
+                'kv1.jpg',
+                'kv2.jpg',
+                'kv3.jpg',
+            ]
+
+            console.log(images)
+
+            //   pick body element ID
+            var image = $('#kv')
+
+            //   set initial background-image
+            image.css('background-image', 'url(/images/' + images[images.length - 1] + ')')
+
+            //   change image every after 5 seconds
+            setInterval(function () {
+                image.fadeOut(1000, function () {
+                    image.css('background-image', 'url(/images/' + images[i++] + ')')
+                    image.fadeIn(1000)
+                })
+                if (i === images.length)
+                    i = 0
+            }, 5000)
+
+            $('#show-password').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#Password').attr('type', 'text');
+                } else {
+                    $('#Password').attr('type', 'password');
+                }
+            });
+        });
+
+        function disableSubmitButton() {
+            if ($('#processForm').valid()) {
+                // Disable the submit button
+                $('#submitButton').prop('disabled', true);
+            }
+            // Submit the form
+            $('#processForm').submit();
+
+        }
+    </script>
+}
+
+
+
+
+
+@* 
+FORM ORIGINALE
+@model LoginViewModel
 
 <form asp-action="Login" method="post">
     <div class="form-group">
@@ -11,8 +143,7 @@
         <label asp-for="Password">Password</label>
         <input asp-for="Password" class="form-control" type="password" />
         <span asp-validation-for="Password" class="text-danger"></span>
-        @* // ALALLALALA *@
     </div>
 
     <button type="submit" class="btn btn-primary">Login</button>
-</form>
+</form> *@
