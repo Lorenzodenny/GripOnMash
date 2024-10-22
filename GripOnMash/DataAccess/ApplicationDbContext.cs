@@ -14,7 +14,8 @@
         public DbSet<Risposta> Risposte { get; init; }
         public DbSet<MedicoBaseAnagrafica> MedicoBaseAnagrafiche { get; init; }
         public DbSet<MailConfig> MailConfigs { get; init; }
-
+        public DbSet<EsitoQuestionario> EsitoQuestionari { get; init; }
+        public DbSet<RisposteEsitoQuestionario> RisposteEsitoQuestionari { get; init; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

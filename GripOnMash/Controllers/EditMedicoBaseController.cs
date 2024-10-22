@@ -79,7 +79,7 @@ namespace GripOnMash.Controllers
 
                 // Mantiene l'utente autenticato dopo l'aggiornamento
                 await _signInManager.RefreshSignInAsync(user);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Edit", "EditMedicoBase");
             }
             else if (formType == "password")
             {
@@ -103,7 +103,7 @@ namespace GripOnMash.Controllers
 
                     // Mantiene l'utente autenticato dopo l'aggiornamento della password
                     await _signInManager.RefreshSignInAsync(user);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Edit", "EditMedicoBase");
                 }
 
                 ModelState.AddModelError("", "La password non può essere vuota.");

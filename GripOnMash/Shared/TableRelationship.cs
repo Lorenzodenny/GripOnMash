@@ -60,6 +60,54 @@
                       .HasForeignKey<MedicoBaseAnagrafica>(m => m.IdentityId)
                       .IsRequired();
             });
+
+            // Configurazione di EsitoQuestionario
+            modelBuilder.Entity<EsitoQuestionario>(e =>
+            {
+                e.ToTable(TableName.EsitoQuestionario);
+
+                e.HasKey(eq => eq.EsitoQuestionarioId);
+
+                // Relazione con ApplicationUser (MedicoBase)
+                e.HasOne(eq => eq.MedicoBase)
+                    .WithMany()
+                    .HasForeignKey(eq => eq.MedicoBaseId)
+                    .IsRequired();
+
+                // Relazione con RisposteEsitoQuestionario
+                e.HasMany(eq => eq.RisposteEsitoQuestionario)
+                    .WithOne(re => re.EsitoQuestionario)
+                    .HasForeignKey(re => re.EsitoQuestionarioId)
+                    .IsRequired();
+            });
+
+            // Configurazione di RisposteEsitoQuestionario
+            modelBuilder.Entity<RisposteEsitoQuestionario>(e =>
+            {
+                e.ToTable(TableName.RisposteEsitoQuestionario);
+
+                e.HasKey(re => re.RisposteEsitoQuestionarioId);
+
+                // Relazione con Domanda
+                e.HasOne(re => re.Domanda)
+                    .WithMany()
+                    .HasForeignKey(re => re.DomandaId)
+                    .IsRequired();
+
+                // Relazione con Risposta
+                e.HasOne(re => re.Risposta)
+                    .WithMany()
+                    .HasForeignKey(re => re.RispostaId)
+                    .IsRequired();
+
+                // Relazione con EsitoQuestionario
+                e.HasOne(re => re.EsitoQuestionario)
+                    .WithMany(eq => eq.RisposteEsitoQuestionario)
+                    .HasForeignKey(re => re.EsitoQuestionarioId)
+                     .OnDelete(DeleteBehavior.NoAction)
+                    .IsRequired();
+            });
+
         }
 
     }
