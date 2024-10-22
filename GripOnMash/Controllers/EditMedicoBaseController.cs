@@ -1,7 +1,6 @@
-﻿
-
-namespace GripOnMash.Controllers
+﻿namespace GripOnMash.Controllers
 {
+    [Authorize(Roles = "User")]
     public class EditMedicoBaseController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;

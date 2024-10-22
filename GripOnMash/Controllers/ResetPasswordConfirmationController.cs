@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace GripOnMash.Controllers
+﻿namespace GripOnMash.Controllers
 {
     public class ResetPasswordConfirmationController : Controller
     {

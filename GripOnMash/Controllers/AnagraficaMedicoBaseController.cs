@@ -7,7 +7,7 @@ using GripOnMash.ViewModel;
 
 namespace GripOnMash.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class AnagraficaMedicoBaseController : Controller
     {
         private readonly IValidator<MedicoBaseAnagraficaViewModel> _anagraficaValidator;

@@ -1,7 +1,7 @@
-﻿using GripOnMash.Helper;
-
-namespace GripOnMash.Controllers
+﻿namespace GripOnMash.Controllers
 {
+    [Authorize(AuthenticationSchemes = "CookieAuth, Identity.Application", Roles = "Admin")]
+
     public class CreateUserController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;

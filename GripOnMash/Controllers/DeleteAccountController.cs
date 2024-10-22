@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace GripOnMash.Controllers
+﻿namespace GripOnMash.Controllers
 {
+    [Authorize(AuthenticationSchemes = "CookieAuth, Identity.Application", Roles = "Admin")]
+
     public class DeleteAccountController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;

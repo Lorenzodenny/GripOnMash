@@ -106,6 +106,7 @@ namespace GripOnMash.Controllers
                         IsPersistent = true // Imposta la sessione persistente o no
                     };
 
+
                     // Effettua il login utilizzando i cookie di autenticazione con lo schema CookieAuth in progrma.cs
                     await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);
 
