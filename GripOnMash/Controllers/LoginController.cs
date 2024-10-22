@@ -64,7 +64,7 @@ namespace GripOnMash.Controllers
                 if (result.Succeeded)
                 {
                     Console.WriteLine("Login riuscito");
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("PushEsito", "PushEsitoQuestionario");
                 }
                 else
                 {
