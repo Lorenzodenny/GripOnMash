@@ -1,2 +1,28 @@
-﻿<h2>Email confermata con successo!</h2>
-<p>Grazie per aver confermato la tua email. Ora puoi effettuare il login e completare il profilo.</p>
+﻿@* <h2>Email confermata con successo!</h2>
+<p>Grazie per aver confermato la tua email. Ora puoi effettuare il login e completare il profilo.</p> *@
+@{
+    ViewData["Title"] = "Email confermata";
+}
+
+
+<div class="d-flex justify-content-center align-items-center w-100 my-auto">
+
+    <!--begin::confirmation card-->
+    <div class="modifica-profilo-card p-5 rounded-lg d-flex flex-column justify-content-evenly align-items-center">
+        
+        <!--begin::confirmation header title-->
+        <div class="d-flex justify-content-center align-items-center w-100">
+            <span class="signup-title">Email confermata con successo!</span>
+        </div>
+        <!--end::confirmation header title-->
+
+        <!--begin::confirmation message-->
+        <div class="d-flex flex-column gap-2 gap-lg-3 align-items-center mt-4 w-100">
+            <p>Grazie per aver confermato la tua email. Ora puoi effettuare il login e completare il profilo.</p>
+        </div>
+        <!--end::confirmation message-->
+
+    </div>
+    <!--end::confirmation card-->
+
+</div>
