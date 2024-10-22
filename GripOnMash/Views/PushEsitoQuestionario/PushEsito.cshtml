@@ -19,9 +19,9 @@
                                             @if (!string.IsNullOrEmpty(Model[i].DomandaTooltip))
                                             {
                                                 <span data-bs-toggle="tooltip"
-                                                      data-bs-placement="top"
-                                                      data-bs-title="@Model[i].DomandaTooltip"
-                                                      style="border-radius: 1000px; color: white; background-color: var(--blue-gemelli-a); padding: 1px 5px; margin-left: 3px; font-size: 10px;">?</span>
+                                                    data-bs-placement="top"
+                                                    data-bs-title="@Model[i].DomandaTooltip"
+                                                    style="border-radius: 1000px; color: white; background-color: var(--blue-gemelli-a); padding: 1px 5px; margin-left: 3px; font-size: 10px;">?</span>
                                             }
                                         </label>
                                         <!-- Radio buttons -->
@@ -55,9 +55,9 @@
                                                 @if (!string.IsNullOrEmpty(Model[i].DomandaTooltip))
                                                 {
                                                     <span data-bs-toggle="tooltip"
-                                                          data-bs-placement="top"
-                                                          data-bs-title="@Model[i].DomandaTooltip"
-                                                          style="border-radius: 1000px; color: white; background-color: var(--blue-gemelli-a); padding: 1px 5px; margin-left: 3px; font-size: 10px;">?</span>
+                                                        data-bs-placement="top"
+                                                        data-bs-title="@Model[i].DomandaTooltip"
+                                                        style="border-radius: 1000px; color: white; background-color: var(--blue-gemelli-a); padding: 1px 5px; margin-left: 3px; font-size: 10px;">?</span>
                                                 }
                                             </label>
                                             <div class="btn-group" role="group">
@@ -92,48 +92,53 @@
 
 @section scripts {
     <script>
-        $(document).ready(function () {
-            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    $(document).ready(function () {
+    // Inizializza i tooltip
+    $('[data-bs-toggle="tooltip"]').tooltip();
 
-            function checkExclusionCriteria() {
-                let allNo = true;
+    // Funzione per controllare i criteri di esclusione
+    function checkExclusionCriteria() {
+        let allNo = true;
 
-                $('.criterio-esclusione').each(function () {
-                    let questionIndex = $(this).data('question-index');
-                    let radios = $(`input[name='RisposteSelezionate[${questionIndex}].RispostaId']`);
-                    let selectedRadio = radios.filter(':checked');
+        // Itera su ogni criterio di esclusione
+        $('.criterio-esclusione').each(function () {
+            let questionIndex = $(this).data('question-index');
+            let radios = $("input[name='RisposteSelezionate[" + questionIndex + "].RispostaId']");
+            let selectedRadio = radios.filter(':checked');
 
-                    if (selectedRadio.length === 0) {
-                        allNo = false;
-                        return false; 
-                    } else {
-                        let selectedText = selectedRadio.next('label').text().trim().toLowerCase();
-                        if (selectedText !== 'no') {
-                            allNo = false;
-                            return false;
-                        }
-                    }
-                });
-
-                if (allNo) {
-                    $('#inclusionCriteriaSection').show();
-                } else {
-                    $('#inclusionCriteriaSection').hide();
+            if (selectedRadio.length === 0) {
+                allNo = false;
+                return false; // Esce dal ciclo
+            } else {
+                var selectedText = selectedRadio.next('label').text().trim().toLowerCase();
+                if (selectedText !== 'no') {
+                    allNo = false;
+                    return false; // Esce dal ciclo
                 }
             }
-
-            $(document).on('change', '.criterio-esclusione', function () {
-                checkExclusionCriteria();
-            });
-
-            checkExclusionCriteria();
-
-            // Reset button functionality
-            $('button[type="reset"]').on('click', function () {
-                $('#inclusionCriteriaSection').hide();
-            });
         });
+
+        // Mostra o nasconde la sezione dei criteri di inclusione
+        if (allNo) {
+            $('#inclusionCriteriaSection').show();
+        } else {
+            $('#inclusionCriteriaSection').hide();
+        }
+    }
+
+    // Evento per quando cambia uno dei radio button dei criteri di esclusione
+    $(document).on('change', '.criterio-esclusione', function () {
+        checkExclusionCriteria();
+    });
+
+    // Controllo iniziale all'avvio della pagina
+    checkExclusionCriteria();
+
+    // Funzionalità per il pulsante di reset
+    $('button[type="reset"]').on('click', function () {
+        $('#inclusionCriteriaSection').hide();
+    });
+});
     </script>
     <partial name="_ValidationScriptsPartial" />
 }
