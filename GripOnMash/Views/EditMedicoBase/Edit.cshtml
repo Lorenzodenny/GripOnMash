@@ -78,7 +78,7 @@ CODICE ORIGINALE
         <!--end::edit account header title-->
         
         <!-- Modifica account form -->
-        <form asp-controller="Account" asp-action="Edit" method="post" class="w-100" autocomplete="off">
+        <form asp-controller="EditMedicoBase" asp-action="Edit" method="post" class="w-100" autocomplete="off">
             <input type="hidden" name="formType" value="account" />
 
             <!-- Campi di modifica -->
@@ -108,7 +108,7 @@ CODICE ORIGINALE
             <span class="signup-title">Cambia Password (facoltativo)</span>
         </div>
 
-        <form asp-controller="Account" asp-action="Edit" method="post" class="w-100" autocomplete="off">
+        <form asp-controller="EditMedicoBase" asp-action="Edit" method="post" class="w-100" autocomplete="off">
             <input type="hidden" name="formType" value="password" />
 
             <div class="d-flex flex-column gap-2 gap-lg-3 align-items-center mt-4 w-100">
@@ -162,7 +162,7 @@ CODICE ORIGINALE
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                <form asp-controller="Account" asp-action="DeleteAccount" method="post">
+                <form asp-controller="DeleteAccount" asp-action="DeleteAccount" method="post">
                     <button type="submit" class="btn btn-danger">Conferma Cancellazione</button>
                 </form>
             </div>
