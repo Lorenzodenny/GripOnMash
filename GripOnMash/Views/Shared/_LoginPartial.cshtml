@@ -18,6 +18,10 @@
             <a class="nav-link text-dark" asp-controller="CreateUser" asp-action="CreateUser">Aggiungi un nuovo utente</a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-controller="PushEsitoQuestionario" asp-action="PushEsito">Questionario</a>
+        </li>
+
        
 
         @if (User.IsInRole("Admin"))  // Admin (LDAP)

@@ -169,6 +169,28 @@
                     .IsRequired();  
             });
 
+            // Configurazione di EsitoQuestionario
+            modelBuilder.Entity<EsitoQuestionario>(e =>
+            {
+                e.ToTable(TableName.EsitoQuestionario);
+                e.Property(eq => eq.PazienteIdoneo)
+                    .IsRequired();
+                e.Property(eq => eq.MedicoBaseId)
+                    .IsRequired()
+                    .HasMaxLength(450); 
+            });
+
+            // Configurazione di RisposteEsitoQuestionario
+            modelBuilder.Entity<RisposteEsitoQuestionario> (e =>
+            {
+                e.ToTable(TableName.RisposteEsitoQuestionario);
+                e.Property(eq => eq.DomandaId)
+                 .IsRequired();
+                e.Property(eq => eq.RispostaId)
+                    .IsRequired();
+                e.Property(eq => eq.EsitoQuestionarioId)
+                    .IsRequired();
+            });
         }
     }
 }

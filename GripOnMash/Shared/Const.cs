@@ -12,6 +12,8 @@
         public const string MedicoBaseAnagrafica = "MedicoBaseAnagrafica";
         public const string InternalUserAccess = "InternalUserAccess";
         public const string MailConfig = "MailConfig";
+        public const string EsitoQuestionario = "EsitoQuestionario";
+        public const string RisposteEsitoQuestionario = "RisposteEsitoQuestionario";
     }
 
     public static class Ruoli

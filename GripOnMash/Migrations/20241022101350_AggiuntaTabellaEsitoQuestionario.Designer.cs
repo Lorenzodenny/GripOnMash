@@ -4,6 +4,7 @@ using GripOnMash.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GripOnMash.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241022101350_AggiuntaTabellaEsitoQuestionario")]
+    partial class AggiuntaTabellaEsitoQuestionario
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,6 +121,9 @@ namespace GripOnMash.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EsitoQuestionarioId"));
 
+                    b.Property<int>("DomandaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("MedicoBaseId")
                         .IsRequired()
                         .HasMaxLength(450)
@@ -126,9 +132,16 @@ namespace GripOnMash.Migrations
                     b.Property<bool>("PazienteIdoneo")
                         .HasColumnType("bit");
 
+                    b.Property<int>("RispostaId")
+                        .HasColumnType("int");
+
                     b.HasKey("EsitoQuestionarioId");
 
+                    b.HasIndex("DomandaId");
+
                     b.HasIndex("MedicoBaseId");
+
+                    b.HasIndex("RispostaId");
 
                     b.ToTable("EsitoQuestionario", (string)null);
                 });
@@ -200,33 +213,33 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "11d6746e-b41f-49b8-bed8-d01a496d64f0",
+                            Id = "a430744c-8bc1-4974-9849-de401640b45d",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "af233b2b-7285-4dfd-ab6b-fcb8ea058ad9",
+                            ConcurrencyStamp = "c3801873-ca92-467d-990e-ff49e4a33d86",
                             Email = "medicobase1@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "MEDICOBASE1@GMAIL.COM",
                             NormalizedUserName = "MEDICOBASE1",
-                            PasswordHash = "AQAAAAIAAYagAAAAECo0kjomf4JBihYEoK8Vray6D8PJEAZMylaeJn51kx8tY58S6CY6kS+MgL5gKCIr5w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKaaTAgPMk0oYB9G2GVOhzAs7TQz+9JmImGFzcEYVEZAMNG+/AmZ1kd7a8DtnHHYzw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "160f56c4-8933-48d9-b921-f34b72010dba",
+                            SecurityStamp = "ef5dca23-5af3-4ea0-aa43-29b8781d1d6c",
                             TwoFactorEnabled = false,
                             UserName = "medicoBase1"
                         },
                         new
                         {
-                            Id = "c13cdd33-ed45-477c-89e0-deb2d3bc54cc",
+                            Id = "e61549c8-18e8-4dfc-abfc-59d47c53a842",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f38b96ce-e218-4b77-ac8b-3005dd62e905",
+                            ConcurrencyStamp = "6383af0b-50c1-40bb-b79f-b7fd97029428",
                             Email = "medicobase2@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = true,
                             NormalizedEmail = "MEDICOBASE2@GMAIL.COM",
                             NormalizedUserName = "MEDICOBASE2",
-                            PasswordHash = "AQAAAAIAAYagAAAAENzuvdg+xVrY5RlKdrMcDKRK1qVr0Z5QZAkBDwUxCTWNmSEiqHM6C7Eah9Atsw+o/g==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFau3pR9OMjpRsCuhslaKFh9q9oEJvQBmsC8trsYm1P7YbqjKhw/ja4JdHgnf5YB8Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "114f7fdb-a932-4a36-91d7-c03fc353904e",
+                            SecurityStamp = "6530fdb9-ae17-4958-a0a4-41952581815e",
                             TwoFactorEnabled = false,
                             UserName = "medicoBase2"
                         });
@@ -266,7 +279,7 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7347bf3c-0ab6-4f66-b8ee-4bfe41f54dcc"),
+                            Id = new Guid("d6a92652-c51f-492e-bfe9-da9d916de7d5"),
                             Cognome = "Silveri",
                             IsEnabled = true,
                             Matricola = "sb004193",
@@ -274,7 +287,7 @@ namespace GripOnMash.Migrations
                         },
                         new
                         {
-                            Id = new Guid("0273e6a7-702a-48e9-8296-4f3a83509c5b"),
+                            Id = new Guid("4ff0439d-879e-4799-9cfd-21d9e4b60279"),
                             Cognome = "Picchi",
                             IsEnabled = true,
                             Matricola = "00665539",
@@ -282,7 +295,7 @@ namespace GripOnMash.Migrations
                         },
                         new
                         {
-                            Id = new Guid("dff2ddeb-9e4e-4120-b699-b1d4157fb39d"),
+                            Id = new Guid("da081476-853c-4619-91e6-d0349e570f48"),
                             Cognome = "Rossi",
                             IsEnabled = true,
                             Matricola = "sb004194",
@@ -339,17 +352,17 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            InternalUserId = new Guid("7347bf3c-0ab6-4f66-b8ee-4bfe41f54dcc"),
+                            InternalUserId = new Guid("d6a92652-c51f-492e-bfe9-da9d916de7d5"),
                             RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
                         },
                         new
                         {
-                            InternalUserId = new Guid("0273e6a7-702a-48e9-8296-4f3a83509c5b"),
+                            InternalUserId = new Guid("4ff0439d-879e-4799-9cfd-21d9e4b60279"),
                             RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
                         },
                         new
                         {
-                            InternalUserId = new Guid("dff2ddeb-9e4e-4120-b699-b1d4157fb39d"),
+                            InternalUserId = new Guid("da081476-853c-4619-91e6-d0349e570f48"),
                             RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
                         });
                 });
@@ -437,7 +450,7 @@ namespace GripOnMash.Migrations
                             Cognome = "Verdi",
                             EmailPersonale = "giuseppe.verdi@gmail.com",
                             Eta = 45,
-                            IdentityId = "11d6746e-b41f-49b8-bed8-d01a496d64f0",
+                            IdentityId = "a430744c-8bc1-4974-9849-de401640b45d",
                             Indirizzo = "Via Roma 1, Milano",
                             Nome = "Giuseppe",
                             NumeroAlbo = "12345MI",
@@ -452,7 +465,7 @@ namespace GripOnMash.Migrations
                             Cognome = "Bianchi",
                             EmailPersonale = "francesca.bianchi@gmail.com",
                             Eta = 38,
-                            IdentityId = "c13cdd33-ed45-477c-89e0-deb2d3bc54cc",
+                            IdentityId = "e61549c8-18e8-4dfc-abfc-59d47c53a842",
                             Indirizzo = "Via Torino 10, Torino",
                             Nome = "Francesca",
                             NumeroAlbo = "67890TO",
@@ -509,34 +522,6 @@ namespace GripOnMash.Migrations
                     b.HasIndex("DomandaId");
 
                     b.ToTable("Risposta", (string)null);
-                });
-
-            modelBuilder.Entity("GripOnMash.Models.RisposteEsitoQuestionario", b =>
-                {
-                    b.Property<int>("RisposteEsitoQuestionarioId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RisposteEsitoQuestionarioId"));
-
-                    b.Property<int>("DomandaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EsitoQuestionarioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RispostaId")
-                        .HasColumnType("int");
-
-                    b.HasKey("RisposteEsitoQuestionarioId");
-
-                    b.HasIndex("DomandaId");
-
-                    b.HasIndex("EsitoQuestionarioId");
-
-                    b.HasIndex("RispostaId");
-
-                    b.ToTable("RisposteEsitoQuestionario", (string)null);
                 });
 
             modelBuilder.Entity("GripOnMash.Models.Service.Email.MailConfig", b =>
@@ -709,12 +694,12 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "11d6746e-b41f-49b8-bed8-d01a496d64f0",
+                            UserId = "a430744c-8bc1-4974-9849-de401640b45d",
                             RoleId = "447b3ca6-bd0b-4e83-baf9-2de7069c10c5"
                         },
                         new
                         {
-                            UserId = "c13cdd33-ed45-477c-89e0-deb2d3bc54cc",
+                            UserId = "e61549c8-18e8-4dfc-abfc-59d47c53a842",
                             RoleId = "447b3ca6-bd0b-4e83-baf9-2de7069c10c5"
                         });
                 });
@@ -762,13 +747,29 @@ namespace GripOnMash.Migrations
 
             modelBuilder.Entity("GripOnMash.Models.EsitoQuestionario", b =>
                 {
+                    b.HasOne("GripOnMash.Models.Domanda", "Domanda")
+                        .WithMany()
+                        .HasForeignKey("DomandaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GripOnMash.Models.IdentityModel.ApplicationUser", "MedicoBase")
                         .WithMany()
                         .HasForeignKey("MedicoBaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GripOnMash.Models.Risposta", "Risposta")
+                        .WithMany()
+                        .HasForeignKey("RispostaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Domanda");
+
                     b.Navigation("MedicoBase");
+
+                    b.Navigation("Risposta");
                 });
 
             modelBuilder.Entity("GripOnMash.Models.InternalUserRole", b =>
@@ -810,33 +811,6 @@ namespace GripOnMash.Migrations
                         .IsRequired();
 
                     b.Navigation("Domanda");
-                });
-
-            modelBuilder.Entity("GripOnMash.Models.RisposteEsitoQuestionario", b =>
-                {
-                    b.HasOne("GripOnMash.Models.Domanda", "Domanda")
-                        .WithMany()
-                        .HasForeignKey("DomandaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GripOnMash.Models.EsitoQuestionario", "EsitoQuestionario")
-                        .WithMany("RisposteEsito")
-                        .HasForeignKey("EsitoQuestionarioId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("GripOnMash.Models.Risposta", "Risposta")
-                        .WithMany()
-                        .HasForeignKey("RispostaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Domanda");
-
-                    b.Navigation("EsitoQuestionario");
-
-                    b.Navigation("Risposta");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -893,11 +867,6 @@ namespace GripOnMash.Migrations
             modelBuilder.Entity("GripOnMash.Models.Domanda", b =>
                 {
                     b.Navigation("Risposte");
-                });
-
-            modelBuilder.Entity("GripOnMash.Models.EsitoQuestionario", b =>
-                {
-                    b.Navigation("RisposteEsito");
                 });
 
             modelBuilder.Entity("GripOnMash.Models.IdentityModel.ApplicationUser", b =>
