@@ -30,7 +30,16 @@ global using System.Net.Mail;
 global using System.Net;
 global using FluentValidation;
 global using FluentValidation.AspNetCore;
-global using GripOnMash.Service;
+global using GripOnMash.Helper.Service;
+global using GripOnMash.Helper.Services;
+global using GripOnMash.FluentValidator;
+global using GripOnMash.Helper;
+global using Microsoft.Extensions.Configuration;
+global using System.Threading.Tasks;
+global using GripOnMash.Models.Service.Email;
+
+
+
 
 
 

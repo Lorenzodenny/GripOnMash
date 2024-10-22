@@ -13,6 +13,7 @@
         public DbSet<Domanda> Domande { get; init; }
         public DbSet<Risposta> Risposte { get; init; }
         public DbSet<MedicoBaseAnagrafica> MedicoBaseAnagrafiche { get; init; }
+        public DbSet<MailConfig> MailConfigs { get; init; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
