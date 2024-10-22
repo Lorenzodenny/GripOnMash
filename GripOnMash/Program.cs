@@ -8,7 +8,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
-// Registro il servizio di Identity, che ci dà la possibilità di utilizzare tutte le funzionalità di identity 
+// Registro il servizio di Identity, che ci dï¿½ la possibilitï¿½ di utilizzare tutte le funzionalitï¿½ di identity 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     // Password settings
@@ -79,6 +79,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Login}");
 
 app.Run();

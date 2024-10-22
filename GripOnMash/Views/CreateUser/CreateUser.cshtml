@@ -38,22 +38,20 @@ CODICE INIZIALE
 
 <div class="d-flex justify-content-center align-items-center w-100 my-auto">
 
-    <!--begin::create user card-->
+    
     <div class="modifica-profilo-card p-5 rounded-lg d-flex flex-column justify-content-evenly align-items-center">
         
-        <!--begin::create user header title-->
+        
         <div class="d-flex justify-content-center align-items-center w-100">
             <span class="signup-title">Crea un nuovo utente</span>
         </div>
-        <!--end::create user header title-->
         
-        <!--begin::create user form-->
         <form asp-action="CreateUser" method="post" class="w-100" autocomplete="off">
             
-            <!--begin::form body-->
+            
             <div class="d-flex flex-column gap-2 gap-lg-3 align-items-center mt-4 w-100">
                 
-                <!--begin::username and email fields-->
+                
                 <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-3 justify-content-start justify-content-lg-between align-items-start w-100">
                     <div class="w-100">
                         <label asp-for="UserName">Nome Utente</label>
@@ -66,31 +64,25 @@ CODICE INIZIALE
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
-                <!--end::username and email fields-->
-
-                <!--begin::phone number field-->
+                
+                
                 <div class="w-100">
                     <label asp-for="PhoneNumber">Numero di Telefono (opzionale)</label>
                     <input asp-for="PhoneNumber" class="form-control" placeholder="Numero di Telefono" />
                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
-                <!--end::phone number field-->
-
-                <!--begin::buttons-->
+                
+                
                 <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-3 justify-content-start justify-content-lg-between align-items-start align-items-lg-center w-100 mt-2">
                     <button type="submit" class="btn btn-primary w-100" id="submitButton">Crea Utente</button>
                     <a class="btn btn-outline-danger w-100" asp-controller="Login" asp-action="Login">Annulla</a>
                 </div>
-                <!--end::buttons-->
-
+                
             </div>
-            <!--end::form body-->
-
+            
         </form>
-        <!--end::create user form-->
-
+        
     </div>
-    <!--end::create user card-->
 
 </div>
 

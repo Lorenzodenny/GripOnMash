@@ -68,16 +68,14 @@ CODICE ORIGINALE
 
 <div class="d-flex justify-content-center align-items-center w-100 my-auto">
 
-    <!--begin::edit account card-->
+    
     <div class="modifica-profilo-card p-5 rounded-lg d-flex flex-column justify-content-evenly align-items-center">
         
-        <!--begin::edit account header title-->
+        
         <div class="d-flex justify-content-center align-items-center w-100">
             <span class="signup-title">Modifica Account</span>
         </div>
-        <!--end::edit account header title-->
         
-        <!-- Modifica account form -->
         <form asp-controller="EditMedicoBase" asp-action="Edit" method="post" class="w-100" autocomplete="off">
             <input type="hidden" name="formType" value="account" />
 
@@ -132,9 +130,7 @@ CODICE ORIGINALE
                 </div>
             </div>
         </form>
-
         <hr class="w-100 my-4" />
-
         <!-- Cancella il profilo -->
         <div class="d-flex justify-content-center align-items-center w-100">
             <span class="signup-title">Cancella il profilo</span>
@@ -143,9 +139,7 @@ CODICE ORIGINALE
             <!-- Bottone per aprire il modale -->
             <button type="button" class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">Cancella Account</button>
         </div>
-        
     </div>
-    <!--end::edit account card-->
 
 </div>
 
