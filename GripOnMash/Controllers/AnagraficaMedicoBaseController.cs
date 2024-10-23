@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using GripOnMash.Models;
-using GripOnMash.ViewModel;
-
-namespace GripOnMash.Controllers
+﻿namespace GripOnMash.Controllers
 {
     [Authorize(Roles = "User")]
     public class AnagraficaMedicoBaseController : Controller

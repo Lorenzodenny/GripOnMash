@@ -32,7 +32,8 @@
             var model = new EditAccountViewModel
             {
                 UserName = user.UserName,
-                Email = user.Email
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber
             };
 
             return View(model);
@@ -64,6 +65,11 @@
                 if (!string.IsNullOrWhiteSpace(model.Email) && model.Email != user.Email)
                 {
                     user.Email = model.Email;
+                }
+
+                if (!string.IsNullOrWhiteSpace(model.PhoneNumber) && model.PhoneNumber != user.PhoneNumber) 
+                {
+                    user.PhoneNumber = model.PhoneNumber;
                 }
 
                 var result = await _userManager.UpdateAsync(user);

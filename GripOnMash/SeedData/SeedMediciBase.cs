@@ -12,39 +12,47 @@
 
             // Seed per i medici di base (ApplicationUser)
             modelBuilder.Entity<ApplicationUser>().HasData(
-                new ApplicationUser
-                {
-                    Id = medicoBaseId1,
-                    UserName = "medicoBase1",
-                    NormalizedUserName = "MEDICOBASE1",
-                    Email = "medicobase1@gmail.com",
-                    NormalizedEmail = "MEDICOBASE1@GMAIL.COM",
-                    EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "Udietta14!"), 
-                    SecurityStamp = Guid.NewGuid().ToString(),
-                    ConcurrencyStamp = Guid.NewGuid().ToString(),
-                    PhoneNumberConfirmed = false,
-                    TwoFactorEnabled = false,
-                    LockoutEnabled = true,
-                    AccessFailedCount = 0
-                },
-                new ApplicationUser
-                {
-                    Id = medicoBaseId2,
-                    UserName = "medicoBase2",
-                    NormalizedUserName = "MEDICOBASE2",
-                    Email = "medicobase2@gmail.com",
-                    NormalizedEmail = "MEDICOBASE2@GMAIL.COM",
-                    EmailConfirmed = true,
-                    PasswordHash = hasher.HashPassword(null, "Udietta14!"),
-                    SecurityStamp = Guid.NewGuid().ToString(),
-                    ConcurrencyStamp = Guid.NewGuid().ToString(),
-                    PhoneNumberConfirmed = false,
-                    TwoFactorEnabled = false,
-                    LockoutEnabled = true,
-                    AccessFailedCount = 0
-                }
-            );
+            new ApplicationUser
+            {
+                Id = medicoBaseId1,
+                UserName = "medicoBase1_unico",  
+                NormalizedUserName = "MEDICOBASE1_UNICO",  
+                Email = "medicobase1@gmail.com",
+                NormalizedEmail = "MEDICOBASE1@GMAIL.COM",
+                EmailConfirmed = true,
+                PasswordHash = hasher.HashPassword(null, "Udietta14!"),
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = true,
+                AccessFailedCount = 0,
+                Nome = "Marco",
+                Cognome = "Silveri",
+                IsDeleted = false,
+                CodiceOtp = "654321"
+            },
+            new ApplicationUser
+            {
+                Id = medicoBaseId2,
+                UserName = "medicoBase2_unico",  
+                NormalizedUserName = "MEDICOBASE2_UNICO",  
+                Email = "medicobase2@gmail.com",
+                NormalizedEmail = "MEDICOBASE2@GMAIL.COM",
+                EmailConfirmed = true,
+                PasswordHash = hasher.HashPassword(null, "Udietta14!"),
+                SecurityStamp = Guid.NewGuid().ToString(),
+                ConcurrencyStamp = Guid.NewGuid().ToString(),
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEnabled = true,
+                AccessFailedCount = 0,
+                Nome = "Francesco",
+                Cognome = "Gentile",
+                IsDeleted = false,
+                CodiceOtp = "123654"
+            }
+        );
 
             // Collegamento dei medici di base ai ruoli in Identity
             modelBuilder.Entity<IdentityUserRole<string>>().HasData(

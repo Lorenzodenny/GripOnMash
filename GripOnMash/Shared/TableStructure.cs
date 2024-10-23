@@ -191,6 +191,26 @@
                 e.Property(eq => eq.EsitoQuestionarioId)
                     .IsRequired();
             });
+
+            // Configurazione di ApplicationUser
+            modelBuilder.Entity<ApplicationUser>(e =>
+            {
+                e.ToTable(TableName.AspNetUsers);
+                e.Property(au => au.Nome)
+                    .IsUnicode(false)
+                    .IsRequired()
+                    .HasMaxLength(100);  
+                e.Property(au => au.Cognome)
+                    .IsUnicode(false)
+                    .IsRequired()
+                    .HasMaxLength(100);  
+                e.Property(au => au.IsDeleted)
+                    .IsRequired(); 
+                e.Property(au => au.CodiceOtp)
+                    .IsUnicode(false)
+                    .HasMaxLength(100);  
+            });
+
         }
     }
 }
