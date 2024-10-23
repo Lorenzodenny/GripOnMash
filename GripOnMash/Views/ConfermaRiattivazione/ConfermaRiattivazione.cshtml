@@ -3,7 +3,7 @@
 <h2>Conferma Riattivazione Profilo</h2>
 <p>Il profilo con questa email è disabilitato. Vuoi riattivarlo?</p>
 
-<form asp-action="ReenableUser" method="post">
+<form asp-action="ConfermaRiattivazione" method="post">
     <input type="hidden" name="userId" value="@TempData["ReenableUserId"]" />
     <button type="submit" class="btn btn-primary">Riattiva Profilo</button>
     <a class="btn btn-secondary" asp-action="CreateUser">Annulla</a>

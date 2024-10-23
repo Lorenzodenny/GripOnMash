@@ -20,6 +20,13 @@ namespace GripOnMash.Controllers
         }
 
 
+        [HttpGet]
+        [Authorize]
+        public IActionResult ConfermaRiattivazione()
+        {
+            return View();
+        }
+
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -36,7 +43,7 @@ namespace GripOnMash.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("RiattivazioneSuccess", "RiattivazioneSuccess");
             }
 
             foreach (var error in result.Errors)
@@ -44,7 +51,7 @@ namespace GripOnMash.Controllers
                 ModelState.AddModelError("", error.Description);
             }
 
-            return View("ConfermaRiattivazione");
+            return View("ConfermaRiattivazione", "ConfermaRiattivazione");
         }
 
     }

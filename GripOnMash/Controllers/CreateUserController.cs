@@ -34,10 +34,29 @@
         public async Task<IActionResult> CreateUser(CreateUserViewModel model)
         {
             var validationResult = await _createUserValidator.ValidateAsync(model);
-            if (validationResult.IsValid)
+            if (validationResult.IsValid && ModelState.IsValid)
             {
                 try
                 {
+
+                    // Controlla se l'email esiste già
+                    var existingUser = await _userManager.FindByEmailAsync(model.Email);
+
+                    if (existingUser != null)
+                    {
+                        if (existingUser.IsDeleted == false)
+                        {
+                            ModelState.AddModelError("", "Profilo già esistente.");
+                            return View(model);
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("", "Profilo disabilitato. Vuoi riattivarlo?");
+                            TempData["ReenableUserId"] = existingUser.Id;  
+                            return RedirectToAction("ConfermaRiattivazione", "ConfermaRiattivazione"); 
+                        }
+                    }
+
                     // Genera una password casuale
                     string randomPassword = PasswordGenerator.Generate();
                     Console.WriteLine("PASSWORD GENERATA: " + randomPassword, ConsoleColor.Green);
