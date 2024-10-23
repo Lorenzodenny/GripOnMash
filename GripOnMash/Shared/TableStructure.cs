@@ -192,7 +192,7 @@
                     .IsRequired();
             });
 
-            // Configurazione di ApplicationUser
+            // Configurazione di ApplicationUser (AspNetUser)
             modelBuilder.Entity<ApplicationUser>(e =>
             {
                 e.ToTable(TableName.AspNetUsers);
@@ -209,6 +209,9 @@
                 e.Property(au => au.CodiceOtp)
                     .IsUnicode(false)
                     .HasMaxLength(100);  
+                e.Property(au => au.CodiceMedico)
+                     .IsUnicode(true)
+                    .HasMaxLength(4);
             });
 
         }

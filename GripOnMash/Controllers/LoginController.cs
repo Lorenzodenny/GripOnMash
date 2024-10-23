@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace GripOnMash.Controllers
+﻿namespace GripOnMash.Controllers
 {
     public class LoginController : Controller
     {
@@ -96,7 +94,9 @@ namespace GripOnMash.Controllers
                     var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                        new Claim(ClaimTypes.Name, user.Matricola)
+                        new Claim(ClaimTypes.Name, user.Matricola),
+                        new Claim("NomeX", user.Nome),  
+                        new Claim("CognomeX", user.Cognome)
                     };
 
                     // Aggiungi i ruoli come claim
@@ -127,6 +127,7 @@ namespace GripOnMash.Controllers
 
                     await _context.SaveChangesAsync();
 
+                    Console.WriteLine("Tentativo di login con LDAP VALIDO");
                     return RedirectToAction("Index", "Home");
                 }
                 Console.WriteLine("Tentativo di login con LDAP non valido");

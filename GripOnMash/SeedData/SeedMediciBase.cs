@@ -30,7 +30,8 @@
                 Nome = "Marco",
                 Cognome = "Silveri",
                 IsDeleted = false,
-                CodiceOtp = "654321"
+                CodiceOtp = "CodiceOtpSilveriMarco",
+                CodiceMedico = "A1B2"
             },
             new ApplicationUser
             {
@@ -50,7 +51,8 @@
                 Nome = "Francesco",
                 Cognome = "Gentile",
                 IsDeleted = false,
-                CodiceOtp = "123654"
+                CodiceOtp = "CodiceOtpFrancescoGentile",
+                CodiceMedico = "C3D4"
             }
         );
 

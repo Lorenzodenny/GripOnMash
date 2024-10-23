@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace GripOnMash.Controllers
+﻿namespace GripOnMash.Controllers
 {
     public class LogoutController : Controller
     {
@@ -18,52 +16,33 @@ namespace GripOnMash.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            // Verifica se l'utente è autenticato tramite LDAP
-            if (User.Identity.IsAuthenticated && User.IsInRole("Admin")) //&& User.Claims.Any(c => c.Issuer == "LdapAuth")) // Controllo aggiuntivo per vedere se è autenticato con il cookie LdapAuth
-            {
-                // Recupera la matricola dell'utente LDAP
-                var matricola = User.FindFirstValue(ClaimTypes.Name);
+            Console.WriteLine("Logout iniziato"); // Verifica se entra nel metodo
 
-                if (string.IsNullOrWhiteSpace(matricola))
-                {
-                    return BadRequest(AuthenticationError.UserNotFound.ToString());
-                }
+            // Controlla se esiste il cookie LDAP
+            if (Request.Cookies["auth_cookie_grip_on_mash"] != null)
+            {
+                Console.WriteLine("Cookie LDAP trovato");
+
+                var matricola = User.FindFirstValue(ClaimTypes.Name);
+                Console.WriteLine($"Matricola trovata: {matricola}");
+
                 if (!string.IsNullOrWhiteSpace(matricola))
                 {
-                    // Prende l'accesso più recente
-                    var internalUserAccess = await _context.InternalUserAccess
-                        .AsNoTracking()
-                        .Where(i => i.Matricola == matricola && i.Uscita == null)
-                        .OrderByDescending(i => i.Accesso)
-                        .FirstOrDefaultAsync();
-
-                    if (internalUserAccess == null)
-                    {
-                        return NotFound(AuthenticationError.LogoutSessionNotFound.ToString());
-                    }
-
-                    if (internalUserAccess != null)
-                    {
-                        // traccia il logout (Uscita)
-                        internalUserAccess.Uscita = DateTime.Now;
-                        _context.Update(internalUserAccess);
-                        await _context.SaveChangesAsync();
-                    }
+                    // Traccia il logout per LDAP
+                    await HttpContext.SignOutAsync("CookieAuth"); // Logout per LDAP
+                    Console.WriteLine("Effettuato logout LDAP");
                 }
-
-                // Elimina i cookie dell'autenticazione LDAP
-                await HttpContext.SignOutAsync("CookieAuth");
             }
 
             // Effettua il logout per gli utenti Identity
-            await _signInManager.SignOutAsync();
-
-            Console.WriteLine("Logout effettuato con successo");
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme); // Logout per Identity
+            Console.WriteLine("Effettuato logout Identity");
 
             return RedirectToAction("Login", "Login");
-        } 
+        }
+
+
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace GripOnMash.Shared.Utilities
+﻿namespace GripOnMash.Shared.Utilities
 {
     public static class PasswordGenerator
     {

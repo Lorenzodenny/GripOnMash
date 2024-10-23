@@ -61,6 +61,10 @@
                     string randomPassword = PasswordGenerator.Generate();
                     Console.WriteLine("PASSWORD GENERATA: " + randomPassword, ConsoleColor.Green);
 
+                    // Genera un CodiceMedicoUnivoco 
+                    string codiceMedico = await CodiceMedicoGenerator.GenerateUniqueCodiceMedicoAsync(_context);
+                    Console.WriteLine("CODICE MEDICO GENERATO: " + codiceMedico, ConsoleColor.Green);
+
                     // Crea l'utente
                     var user = new ApplicationUser
                     {
@@ -70,7 +74,8 @@
                         Nome = model.Nome, 
                         Cognome = model.Cognome, 
                         IsDeleted = false,
-                        CodiceOtp = "CodiceOtpDaInventare"
+                        CodiceOtp = "CodiceOtpDaInventare",
+                        CodiceMedico = codiceMedico
                     };
 
                     var result = await _userManager.CreateAsync(user, randomPassword);
