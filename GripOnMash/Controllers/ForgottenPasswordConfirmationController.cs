@@ -6,7 +6,10 @@ namespace GripOnMash.Controllers
     {
         public IActionResult ForgottenPasswordConfirmation()
         {
-            return View();
+            // return View();
+            
+            return RedirectToAction("Login", "Login");
+
         }
     }
 }

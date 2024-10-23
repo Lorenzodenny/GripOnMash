@@ -79,6 +79,9 @@ namespace GripOnMash.Controllers
 
                 // Mantiene l'utente autenticato dopo l'aggiornamento
                 await _signInManager.RefreshSignInAsync(user);
+
+                TempData["SuccessMessage"] = "Modifiche salvate con successo.";
+
                 return RedirectToAction("Edit", "EditMedicoBase");
             }
             else if (formType == "password")
@@ -103,6 +106,9 @@ namespace GripOnMash.Controllers
 
                     // Mantiene l'utente autenticato dopo l'aggiornamento della password
                     await _signInManager.RefreshSignInAsync(user);
+
+                    TempData["SuccessMessage"] = "Modifiche salvate con successo.";
+
                     return RedirectToAction("Edit", "EditMedicoBase");
                 }
 

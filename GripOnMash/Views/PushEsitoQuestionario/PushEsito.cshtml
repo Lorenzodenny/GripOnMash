@@ -1,5 +1,8 @@
 ﻿@model List<Domanda>
 
+@{
+    ViewData["Title"] = "Questionario Paziente";
+}
 <div class="d-flex flex-column w-100 gap-2 gap-lg-3" style="margin-bottom: 53px">
     <div class="registrazione-pazienti-wrapper d-flex flex-column w-100 rounded-lg p-2 p-lg-4">
 
@@ -8,6 +11,7 @@
 
                 <div class="d-flex flex-column gap-2 gap-lg-3 w-100">
                     <div class="row">
+                        <h2 class="signup-title">Criteri di esclusione</h2>
                         @for (int i = 0; i < Model.Count; i++)
                         {
                             if (Model[i].DomandaInclusione == false)
@@ -44,6 +48,7 @@
                 <div id="inclusionCriteriaSection" style="display: none;">
                     <div class="d-flex flex-column gap-2 gap-lg-3 w-100">
                         <div class="row">
+                            <h2 class="signup-title">Criteri di inclusione</h2>
                             @for (int i = 0; i < Model.Count; i++)
                             {
                                 if (Model[i].DomandaInclusione == true)
@@ -80,7 +85,7 @@
                 <input type="hidden" name="PazienteIdoneo" value="true" />
 
                 <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-3 mt-4">
-                    <button type="submit" class="btn btn-gemelli myButton" style="min-width: 180px">Invia Esito</button>
+                    <button id="invio-button" type="submit" class="btn btn-gemelli myButton" style="min-width: 180px">Invia Esito</button>
                     <button type="reset" class="btn btn-outline-danger myButton" style="min-width: 180px">Annulla</button>
                 </div>
 
@@ -120,11 +125,15 @@
 
         // Mostra o nasconde la sezione dei criteri di inclusione
         if (allNo) {
+            $('#invio-button').prop('disabled', false);
             $('#inclusionCriteriaSection').show();
         } else {
+            $('#invio-button').prop('disabled', true);
             $('#inclusionCriteriaSection').hide();
         }
     }
+
+    
 
     // Evento per quando cambia uno dei radio button dei criteri di esclusione
     $(document).on('change', '.criterio-esclusione', function () {
@@ -136,6 +145,7 @@
 
     // Funzionalità per il pulsante di reset
     $('button[type="reset"]').on('click', function () {
+        $('#invio-button').prop('disabled', true);
         $('#inclusionCriteriaSection').hide();
     });
 });
