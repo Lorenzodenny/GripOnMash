@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace GripOnMash.Controllers
+﻿namespace GripOnMash.Controllers
 {
+   // [Authorize(AuthenticationSchemes = "CookieAuth, Identity.Application", Roles = "Admin")]
+
     public class DeleteAccountController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -27,10 +27,12 @@ namespace GripOnMash.Controllers
                 return NotFound();
             }
 
-            var result = await _userManager.DeleteAsync(user);
+            user.IsDeleted = true;
+
+            var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                await _signInManager.SignOutAsync();  // Logout
+                await _signInManager.SignOutAsync(); // Logout
                 return RedirectToAction("Login", "Login");
             }
 
@@ -41,5 +43,6 @@ namespace GripOnMash.Controllers
 
             return View("Index", "Home");
         }
+
     }
 }

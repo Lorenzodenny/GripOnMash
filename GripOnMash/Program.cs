@@ -34,7 +34,10 @@ builder.Services.AddFluentValidationAutoValidation()
 // Registro tutti i validation nell'assembly di program
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
-
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Login/Login";  
+});
 
 // Registro lo schema dei cookie
 builder.Services.AddAuthentication(options =>

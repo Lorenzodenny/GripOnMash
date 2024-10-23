@@ -4,10 +4,15 @@
     {
         public CreateUserViewModelValidator()
         {
-            RuleFor(x => x.UserName)
-                .NotEmpty().WithMessage("Il Nome Utente è obbligatorio.")
-                .Matches(@"^\S*$").WithMessage("Il nome utente non può contenere spazi.")
-                .MaximumLength(50).WithMessage("Il Nome Utente non può superare i 50 caratteri.");
+            RuleFor(x => x.Nome)
+                .NotEmpty().WithMessage("Il Nome è obbligatorio.")
+                .Matches(@"^\S*$").WithMessage("Il nome non può contenere spazi.")
+                .MaximumLength(50).WithMessage("Il Nome non può superare i 50 caratteri.");
+
+            RuleFor(x => x.Cognome)
+              .NotEmpty().WithMessage("Il Cognome è obbligatorio.")
+              .Matches(@"^\S*$").WithMessage("Il Cognome non può contenere spazi.")
+              .MaximumLength(50).WithMessage("Il Cognome non può superare i 50 caratteri.");
 
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("L'Email è obbligatoria.")

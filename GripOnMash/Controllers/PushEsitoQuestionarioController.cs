@@ -1,73 +1,76 @@
-﻿using GripOnMash.Models;
-
-public class PushEsitoQuestionarioController : Controller
+﻿namespace GripOnMash.Controllers
 {
-    private readonly ApplicationDbContext _context;
-    private readonly UserManager<ApplicationUser> _userManager;
-
-    public PushEsitoQuestionarioController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+    [Authorize(Roles = "User")]
+    public class PushEsitoQuestionarioController : Controller
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
-        _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
-    }
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-    [HttpGet]
-    public IActionResult PushEsito()
-    {
-        var domande = _context.Domande
-        .Include(d => d.Risposte)
-        .ToList();
-
-        if (domande == null || domande.Count == 0)
+        public PushEsitoQuestionarioController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
-            return View("Errore", "Nessuna domanda trovata");
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
-        return View(domande);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> PushEsito(PushEsitoQuestionarioViewModel model)
-    {
-        var medicoBaseId = _userManager.GetUserId(User);
-
-        if (medicoBaseId == null)
+        [HttpGet]
+        public IActionResult PushEsito()
         {
-            return BadRequest("ID del medico non trovato.");
-        }
+            var domande = _context.Domande
+            .Include(d => d.Risposte)
+            .ToList();
 
-        Console.WriteLine($"UserId recuperato: {medicoBaseId}");
-
-        if (ModelState.IsValid)
-        {
-            var esito = new EsitoQuestionario
+            if (domande == null || domande.Count == 0)
             {
-                MedicoBaseId = medicoBaseId, 
-                PazienteIdoneo = model.PazienteIdoneo
-            };
-
-            _context.EsitoQuestionari.Add(esito);
-            await _context.SaveChangesAsync();
-
-            foreach (var rispostaSelezionata in model.RisposteSelezionate)
-            {
-                var rispostaEsito = new RisposteEsitoQuestionario
-                {
-                    EsitoQuestionarioId = esito.EsitoQuestionarioId,
-                    DomandaId = rispostaSelezionata.DomandaId,
-                    RispostaId = rispostaSelezionata.RispostaId
-                };
-
-                _context.RisposteEsitoQuestionari.Add(rispostaEsito);
+                return View("Errore", "Nessuna domanda trovata");
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction("ConfermaEsito", "ConfermaEsito");
+            return View(domande);
         }
 
-        return View("PushEsito", model);
+        [HttpPost]
+        public async Task<IActionResult> PushEsito(PushEsitoQuestionarioViewModel model)
+        {
+            var medicoBaseId = _userManager.GetUserId(User);
+
+            if (medicoBaseId == null)
+            {
+                return BadRequest("ID del medico non trovato.");
+            }
+
+            Console.WriteLine($"UserId recuperato: {medicoBaseId}");
+
+            if (ModelState.IsValid)
+            {
+                var esito = new EsitoQuestionario
+                {
+                    MedicoBaseId = medicoBaseId,
+                    PazienteIdoneo = model.PazienteIdoneo
+                };
+
+                _context.EsitoQuestionari.Add(esito);
+                await _context.SaveChangesAsync();
+
+                foreach (var rispostaSelezionata in model.RisposteSelezionate)
+                {
+                    var rispostaEsito = new RisposteEsitoQuestionario
+                    {
+                        EsitoQuestionarioId = esito.EsitoQuestionarioId,
+                        DomandaId = rispostaSelezionata.DomandaId,
+                        RispostaId = rispostaSelezionata.RispostaId
+                    };
+
+                    _context.RisposteEsitoQuestionari.Add(rispostaEsito);
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction("ConfermaEsito", "ConfermaEsito");
+            }
+
+            return View("PushEsito", model);
+        }
+
+
+
     }
-
-
-
 }
+

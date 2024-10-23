@@ -1,7 +1,6 @@
-﻿
-
-namespace GripOnMash.Controllers
+﻿namespace GripOnMash.Controllers
 {
+    [Authorize(Roles = "User")]
     public class EditMedicoBaseController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -33,7 +32,8 @@ namespace GripOnMash.Controllers
             var model = new EditAccountViewModel
             {
                 UserName = user.UserName,
-                Email = user.Email
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber
             };
 
             return View(model);
@@ -65,6 +65,11 @@ namespace GripOnMash.Controllers
                 if (!string.IsNullOrWhiteSpace(model.Email) && model.Email != user.Email)
                 {
                     user.Email = model.Email;
+                }
+
+                if (!string.IsNullOrWhiteSpace(model.PhoneNumber) && model.PhoneNumber != user.PhoneNumber) 
+                {
+                    user.PhoneNumber = model.PhoneNumber;
                 }
 
                 var result = await _userManager.UpdateAsync(user);

@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace GripOnMash.Controllers
 {
+    [Authorize(AuthenticationSchemes = "CookieAuth, Identity.Application")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

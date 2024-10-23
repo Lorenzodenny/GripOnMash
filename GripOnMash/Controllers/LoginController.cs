@@ -57,6 +57,11 @@ namespace GripOnMash.Controllers
                     ModelState.AddModelError("", "Utente non trovato.");
                     return View();
                 }
+                if(user.IsDeleted is true)
+                {
+                    ModelState.AddModelError("", "Utente disabilitato.");
+                    return View();
+                }
 
                 // Verifica il risultato di PasswordSignInAsync
                 var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, isPersistent: false, lockoutOnFailure: false);
@@ -105,6 +110,7 @@ namespace GripOnMash.Controllers
                     {
                         IsPersistent = true // Imposta la sessione persistente o no
                     };
+
 
                     // Effettua il login utilizzando i cookie di autenticazione con lo schema CookieAuth in progrma.cs
                     await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);

@@ -14,6 +14,7 @@
         public const string MailConfig = "MailConfig";
         public const string EsitoQuestionario = "EsitoQuestionario";
         public const string RisposteEsitoQuestionario = "RisposteEsitoQuestionario";
+        public const string AspNetUsers = "AspNetUsers";
     }
 
     public static class Ruoli

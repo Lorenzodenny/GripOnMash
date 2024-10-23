@@ -54,11 +54,17 @@ CODICE INIZIALE
                 
                 <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-3 justify-content-start justify-content-lg-between align-items-start w-100">
                     <div class="w-100">
-                        <label asp-for="UserName">Nome Utente
+                        <label asp-for="Nome">
+                            Nome
                             <span class="text-danger">(Obbligatorio)</span>
                         </label>
-                        <input asp-for="UserName" class="form-control" placeholder="Nome Utente" />
-                        <span asp-validation-for="UserName" class="text-danger"></span>
+                        <input asp-for="Nome" class="form-control" placeholder="Nome" />
+                        <span asp-validation-for="Nome" class="text-danger"></span>
+                    </div>
+                    <div class="w-100">
+                        <label asp-for="Cognome">Cognome  <span class="text-danger">(Obbligatorio)</span></label>
+                        <input asp-for="Cognome" class="form-control" placeholder="Cognome" />
+                        <span asp-validation-for="Cognome" class="text-danger"></span>
                     </div>
                     <div class="w-100">
                         <label asp-for="Email">

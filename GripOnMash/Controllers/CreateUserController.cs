@@ -1,7 +1,7 @@
-﻿using GripOnMash.Helper;
-
-namespace GripOnMash.Controllers
+﻿namespace GripOnMash.Controllers
 {
+   // [Authorize(AuthenticationSchemes = "CookieAuth, Identity.Application", Roles = "Admin")]
+
     public class CreateUserController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -45,9 +45,13 @@ namespace GripOnMash.Controllers
                     // Crea l'utente
                     var user = new ApplicationUser
                     {
-                        UserName = model.UserName,
+                        UserName = model.Email, 
                         Email = model.Email,
-                        PhoneNumber = model.PhoneNumber
+                        PhoneNumber = model.PhoneNumber,
+                        Nome = model.Nome, 
+                        Cognome = model.Cognome, 
+                        IsDeleted = false,
+                        CodiceOtp = "CodiceOtpDaInventare"
                     };
 
                     var result = await _userManager.CreateAsync(user, randomPassword);
