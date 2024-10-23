@@ -1,4 +1,4 @@
-﻿@model string
+﻿@* @model string
 
 <h2>Conferma Riattivazione Profilo</h2>
 <p>Il profilo con questa email è disabilitato. Vuoi riattivarlo?</p>
@@ -7,4 +7,33 @@
     <input type="hidden" name="userId" value="@TempData["ReenableUserId"]" />
     <button type="submit" class="btn btn-primary">Riattiva Profilo</button>
     <a class="btn btn-secondary" asp-action="CreateUser">Annulla</a>
-</form>
+</form> *@
+
+
+@model string
+
+@{
+    ViewData["Title"] = "Conferma Riattivazione Profilo";
+}
+
+<div class="d-flex justify-content-center align-items-center w-100 my-auto">
+    <div class="modifica-profilo-card p-5 rounded-lg d-flex flex-column justify-content-evenly align-items-center">
+        
+        <div class="d-flex justify-content-center align-items-center w-100">
+            <h2>Conferma Riattivazione Profilo</h2>
+        </div>
+        
+        <div class="d-flex justify-content-center align-items-center w-100">
+            <p>Il profilo con questa email è disabilitato. Vuoi riattivarlo?</p>
+        </div>
+
+        <div class="d-flex flex-column gap-2 gap-lg-3 align-items-center mt-4 w-100">
+            <form asp-action="ConfermaRiattivazione" method="post">
+                <input type="hidden" name="userId" value="@TempData["ReenableUserId"]" />
+                <button type="submit" class="btn btn-primary">Riattiva Profilo</button>
+                <a class="btn btn-secondary" asp-action="CreateUser">Annulla</a>
+            </form>
+        </div>
+
+    </div>
+</div>
