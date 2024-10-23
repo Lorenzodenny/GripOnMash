@@ -37,11 +37,11 @@ namespace GripOnMash.Helper
             try
             {
                 var confirmationLink = urlHelper.Action("ConfermaEmail", "ConfirmEmail", new { userId = user.Id, token = token }, "http");
-                var anagraficaLink = urlHelper.Action("CompilaAnagrafica", "AnagraficaMedicoBase", null, "http");
+                var anagraficaLink = urlHelper.Action("LoginAnagrafica", "LoginAnagrafica", null, "http");
 
                 string confirmationSubject = "Conferma il tuo account";
                 string confirmationBody = $"Ciao {user.UserName},<br><br>Per favore, <a href='{confirmationLink}'>conferma la tua email</a> per attivare il tuo account.<br><br>" +
-                    $"Dopo aver confermato la tua email, <a href='{anagraficaLink}'>compila il form anagrafico</a> per completare il profilo.";
+                    $"Dopo aver confermato la tua email, <a href='{anagraficaLink}'>loggati e compila il form anagrafico</a> per completare il profilo.";
 
                 await _emailService.SendEmailAsync(user.Email, confirmationSubject, confirmationBody);
                 Console.WriteLine("Email di conferma inviata a: " + user.Email);
