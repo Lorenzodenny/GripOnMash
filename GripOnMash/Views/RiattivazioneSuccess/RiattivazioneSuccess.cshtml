@@ -1,2 +1,21 @@
-﻿<h3>L'email è stata riattivata con successo!</h3>
-<a asp-controller="Home" asp-action="Index">Torna alla Home</a>
+﻿@* <h3>L'email è stata riattivata con successo!</h3>
+<a asp-controller="Home" asp-action="Index">Torna alla Home</a> *@
+
+@{
+    ViewData["Title"] = "Riattivazione avvenuta";
+}
+
+
+<div class="d-flex justify-content-center align-items-center w-100 my-auto">
+    <div class="modifica-profilo-card p-5 rounded-lg d-flex flex-column justify-content-evenly align-items-center">
+        
+        <div class="d-flex justify-content-center align-items-center w-100">
+            <h3>L'email è stata riattivata con successo!</h3>
+        </div>
+
+        <div class="d-flex flex-column gap-2 gap-lg-3 align-items-center mt-4 w-100">
+            <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Torna alla Home</a>
+        </div>
+
+    </div>
+</div>
