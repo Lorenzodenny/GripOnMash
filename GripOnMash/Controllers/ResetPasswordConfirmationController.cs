@@ -4,7 +4,9 @@
     {
         public IActionResult ResetPasswordConfirmation()
         {
-            return View();
+            // return View();
+            return RedirectToAction("Login", "Login");
+
         }
     }
 }

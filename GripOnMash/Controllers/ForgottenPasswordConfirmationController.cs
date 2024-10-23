@@ -4,10 +4,7 @@
     {
         public IActionResult ForgottenPasswordConfirmation()
         {
-            // return View();
-            
-            return RedirectToAction("Login", "Login");
-
+            return View();
         }
     }
 }
