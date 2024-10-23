@@ -75,9 +75,17 @@ CODICE ORIGINALE
         <div class="d-flex justify-content-center align-items-center w-100">
             <span class="signup-title">Modifica Account</span>
         </div>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div id="messaggio-successo" class="alert alert-success mt-3 text-center w-100">
+                @TempData["SuccessMessage"]
+            </div>
+        }
         
         <form asp-controller="EditMedicoBase" asp-action="Edit" method="post" class="w-100" autocomplete="off">
             <input type="hidden" name="formType" value="account" />
+
 
             <!-- Campi di modifica -->
             <div class="d-flex flex-column gap-2 gap-lg-3 align-items-center mt-4 w-100">
@@ -171,5 +179,15 @@ CODICE ORIGINALE
 </div>
 
 @section Scripts {
+<script>
+    window.onload = function () {
+        var successMessage = document.getElementById("messaggio-successo");
+        if (successMessage) {
+            setTimeout(function () {
+                successMessage.style.display = 'none';
+            }, 5000); 
+        }
+    };
+</script>
     <partial name="_ValidationScriptsPartial" />
 }

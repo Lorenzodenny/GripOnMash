@@ -1,25 +1,155 @@
 ﻿@model List<Domanda>
 
-<form asp-action="PushEsito" method="post">
-    @for (int i = 0; i < Model.Count; i++)
-    {
-        <h4>@Model[i].DomandaTesto</h4>
-        <div class="btn-group" role="group">
-            @foreach (var risposta in Model[i].Risposte)
-            {
-                <input type="radio" id="risposta_@risposta.RispostaId" name="RisposteSelezionate[@i].RispostaId" value="@risposta.RispostaId" class="btn-check" autocomplete="off" />
-                <label class="btn btn-outline-primary" for="risposta_@risposta.RispostaId">@risposta.RispostaTesto</label>
+@{
+    ViewData["Title"] = "Questionario Paziente";
+}
+<div class="d-flex flex-column w-100 gap-2 gap-lg-3" style="margin-bottom: 53px">
+    <div class="registrazione-pazienti-wrapper d-flex flex-column w-100 rounded-lg p-2 p-lg-4">
 
-                <input type="hidden" name="RisposteSelezionate[@i].DomandaId" value="@Model[i].DomandaId" />
+        <form asp-action="PushEsito" method="post" class="w-100" autocomplete="off" id="processForm">
+            <div class="d-flex flex-column gap-2 gap-lg-3 w-100">
+
+                <div class="d-flex flex-column gap-2 gap-lg-3 w-100">
+                    <div class="row">
+                        <h2 class="signup-title">Criteri di esclusione</h2>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            if (Model[i].DomandaInclusione == false)
+                            {
+                                <div class="col-12 col-md-6 col-lg-3">
+                                    <div class="d-flex flex-column gap-2 w-100 mt-auto">
+                                        <label class="my-label slategray">
+                                            @Model[i].DomandaTesto
+                                            @if (!string.IsNullOrEmpty(Model[i].DomandaTooltip))
+                                            {
+                                                <span data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
+                                                    data-bs-title="@Model[i].DomandaTooltip"
+                                                    style="border-radius: 1000px; color: white; background-color: var(--blue-gemelli-a); padding: 1px 5px; margin-left: 3px; font-size: 10px;">?</span>
+                                            }
+                                        </label>
+                                        <!-- Radio buttons -->
+                                        <div class="btn-group" role="group">
+                                            @foreach (var risposta in Model[i].Risposte)
+                                            {
+                                                <input required type="radio" id="risposta_@risposta.RispostaId" name="RisposteSelezionate[@i].RispostaId" value="@risposta.RispostaId" class="btngrp btn-check criterio-esclusione" data-question-index="@i" autocomplete="off" />
+                                                <label class="btn btn-outline-primary" for="risposta_@risposta.RispostaId">@risposta.RispostaTesto</label>
+                                            }
+                                        
+                                        </div>
+                                        <input type="hidden" name="RisposteSelezionate[@i].DomandaId" value="@Model[i].DomandaId" />
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div id="inclusionCriteriaSection" style="display: none;">
+                    <div class="d-flex flex-column gap-2 gap-lg-3 w-100">
+                        <div class="row">
+                            <h2 class="signup-title">Criteri di inclusione</h2>
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                if (Model[i].DomandaInclusione == true)
+                                {
+                                    <div class="col-12 col-md-6">
+                                        <div class="d-flex flex-column gap-2 w-100 mt-auto">
+                                            <label class="my-label slategray">
+                                                @Model[i].DomandaTesto
+                                                @if (!string.IsNullOrEmpty(Model[i].DomandaTooltip))
+                                                {
+                                                    <span data-bs-toggle="tooltip"
+                                                        data-bs-placement="top"
+                                                        data-bs-title="@Model[i].DomandaTooltip"
+                                                        style="border-radius: 1000px; color: white; background-color: var(--blue-gemelli-a); padding: 1px 5px; margin-left: 3px; font-size: 10px;">?</span>
+                                                }
+                                            </label>
+                                            <div class="btn-group" role="group">
+                                                @foreach (var risposta in Model[i].Risposte)
+                                                {
+                                                    <input required type="radio" id="risposta_@risposta.RispostaId" name="RisposteSelezionate[@i].RispostaId" value="@risposta.RispostaId" class="btngrp btn-check" autocomplete="off" />
+                                                    <label class="btn btn-outline-primary" for="risposta_@risposta.RispostaId">@risposta.RispostaTesto</label>
+                                                }
+                                            
+                                            </div>
+                                            <input type="hidden" name="RisposteSelezionate[@i].DomandaId" value="@Model[i].DomandaId" />
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="PazienteIdoneo" value="true" />
+
+                <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-3 mt-4">
+                    <button id="invio-button" type="submit" class="btn btn-gemelli myButton" style="min-width: 180px">Invia Esito</button>
+                    <button type="reset" class="btn btn-outline-danger myButton" style="min-width: 180px">Annulla</button>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section scripts {
+    <script>
+    $(document).ready(function () {
+    // Inizializza i tooltip
+    $('[data-bs-toggle="tooltip"]').tooltip();
+
+    // Funzione per controllare i criteri di esclusione
+    function checkExclusionCriteria() {
+        let allNo = true;
+
+        // Itera su ogni criterio di esclusione
+        $('.criterio-esclusione').each(function () {
+            let questionIndex = $(this).data('question-index');
+            let radios = $("input[name='RisposteSelezionate[" + questionIndex + "].RispostaId']");
+            let selectedRadio = radios.filter(':checked');
+
+            if (selectedRadio.length === 0) {
+                allNo = false;
+                return false; // Esce dal ciclo
+            } else {
+                var selectedText = selectedRadio.next('label').text().trim().toLowerCase();
+                if (selectedText !== 'no') {
+                    allNo = false;
+                    return false; // Esce dal ciclo
+                }
             }
-        </div>
+        });
+
+        // Mostra o nasconde la sezione dei criteri di inclusione
+        if (allNo) {
+            $('#invio-button').prop('disabled', false);
+            $('#inclusionCriteriaSection').show();
+        } else {
+            $('#invio-button').prop('disabled', true);
+            $('#inclusionCriteriaSection').hide();
+        }
     }
 
-    <div class="form-group mt-4">
-        <label>Il paziente è idoneo?</label><br />
-        <input type="checkbox" name="PazienteIdoneo" value="true" id="pazienteIdoneo" />
-        <label for="pazienteIdoneo">Sì</label>
-    </div>
+    
 
-    <button type="submit" class="btn btn-success mt-3">Invia Esito</button>
-</form>
+    // Evento per quando cambia uno dei radio button dei criteri di esclusione
+    $(document).on('change', '.criterio-esclusione', function () {
+        checkExclusionCriteria();
+    });
+
+    // Controllo iniziale all'avvio della pagina
+    checkExclusionCriteria();
+
+    // Funzionalità per il pulsante di reset
+    $('button[type="reset"]').on('click', function () {
+        $('#invio-button').prop('disabled', true);
+        $('#inclusionCriteriaSection').hide();
+    });
+});
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
+
