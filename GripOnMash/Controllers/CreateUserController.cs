@@ -66,7 +66,7 @@
                         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                         await _emailHelper.SendConfirmationEmail(user, token, Url);
 
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("RegistrazioneSuccess", "RegistrazioneSuccess");
                     }
                     else
                     {

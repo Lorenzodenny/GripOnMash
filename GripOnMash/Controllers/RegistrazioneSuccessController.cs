@@ -1,16 +1,14 @@
 ﻿namespace GripOnMash.Controllers
 {
-    public class ConfermaEsitoController : Controller
+    public class RegistrazioneSuccessController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ConfermaEsitoController(ApplicationDbContext context)
+        public RegistrazioneSuccessController(ApplicationDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-
-        [HttpGet]
-        public IActionResult ConfermaEsito()
+        public IActionResult RegistrazioneSuccess()
         {
             return View();
         }
