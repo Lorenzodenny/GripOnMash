@@ -28,8 +28,8 @@ namespace GripOnMash.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
+      //  [Authorize]
+       // [ValidateAntiForgeryToken]
         public async Task<IActionResult> ConfermaRiattivazione(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);

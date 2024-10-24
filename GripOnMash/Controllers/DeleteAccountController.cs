@@ -17,11 +17,11 @@
         }
 
         [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteAccount()
+     //   [Authorize]
+     //   [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteAccount(string userId)
         {
-            var user = await _userManager.GetUserAsync(User);
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return NotFound();
@@ -32,8 +32,7 @@
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                await _signInManager.SignOutAsync(); // Logout
-                return RedirectToAction("Login", "Login");
+                return RedirectToAction("GetMediciBase", "GetMediciBase");
             }
 
             foreach (var error in result.Errors)
@@ -41,7 +40,7 @@
                 ModelState.AddModelError("", error.Description);
             }
 
-            return View("Index", "Home");
+            return View("GetMediciBase", "GetMediciBase");
         }
 
     }

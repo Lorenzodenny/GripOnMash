@@ -1,3 +1,5 @@
+using GripOnMash.MiddleWare;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -79,10 +81,16 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseStaticFiles();
 
+
+
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Middleware che controlla e gestisce su ogni chiamata se l'utente loggato ha il booleano
+// IsDeleted su true, in caso forza il logout
+app.UseMiddleware<CheckIfDeletedMiddleware>();
 
 app.MapControllerRoute(
     name: "default",
