@@ -1,7 +1,9 @@
 ﻿namespace GripOnMash.Controllers
 {
+    [Authorize(AuthenticationSchemes = "CookieAuth")]
     public class GetMediciBaseController : Controller
     {
+
         private readonly UserManager<ApplicationUser> _userManager;
 
         public GetMediciBaseController(UserManager<ApplicationUser> userManager)
