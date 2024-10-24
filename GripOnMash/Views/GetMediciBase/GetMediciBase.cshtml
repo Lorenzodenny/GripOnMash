@@ -1,51 +1,87 @@
 ﻿@model List<GripOnMash.Models.IdentityModel.ApplicationUser>
 
-<h2>Lista dei Medici</h2>
+@{
+    ViewData["Title"] = "Lista dei Medici";
+}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Cognome</th>
-            <th>Email</th>
-            <th>Stato</th>
-            <th>Azione</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
+
+@* <h2 class="my-label">Lista dei Medici</h2> *@
+
+        <div class="d-flex justify-content-center align-items-center w-100">
+            <span class="signup-title">Lista dei Medici</span>
+        </div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover mt-4 bg-light">
+        <thead>
             <tr>
-                <td>@user.Nome</td>
-                <td>@user.Cognome</td>
-                <td>@user.Email</td>
-                <td>
-                    @if (user.IsDeleted)
-                    {
-                        <span class="text-danger">Disattivato</span>
-                    }
-                    else
-                    {
-                        <span class="text-success">Attivo</span>
-                    }
-                </td>
-                <td>
-                    @if (user.IsDeleted)
-                    {
-                        <form asp-action="ConfermaRiattivazione" asp-controller="ConfermaRiattivazione" method="post">
-                            <input type="hidden" name="userId" value="@user.Id" />
-                            <button type="submit" class="btn btn-success">Riattiva</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <form asp-action="DeleteAccount" asp-controller="DeleteAccount" method="post">
-                            <input type="hidden" name="userId" value="@user.Id" />
-                            <button type="submit" class="btn btn-danger">Disattiva</button>
-                        </form>
-                    }
-                </td>
+                <th class="my-label slategray"  style="color: var(--blue-gemelli-a);">Stato</th>
+                <th class="my-label slategray"  style="color: var(--blue-gemelli-a);">Nome</th>
+                <th class="my-label slategray"  style="color: var(--blue-gemelli-a);">Cognome</th>
+                <th class="my-label slategray"  style="color: var(--blue-gemelli-a);">Email</th>
+                <th class="my-label slategray"  style="color: var(--blue-gemelli-a);">Azioni</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>
+                        @if (user.IsDeleted)
+                        {
+                            <div class="text-danger fw-bold">
+                                <div class="dot disattivo"></div>
+                                <span>Disattivato</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-success fw-bold">
+                                <div class="dot attivo"></div>
+                                <span>Attivo</span>
+                            </div>
+                        }
+                    </td>
+                    <td class="text-dark">@user.Nome</td>
+                    <td class="text-dark">@user.Cognome</td>
+                    <td class="text-dark">@user.Email</td>
+                    <td class="d-flex flex-column flex-lg-row gap-2 gap-lg-3 align-items-center">
+                        @if (user.IsDeleted)
+                        {
+                            <form asp-action="ConfermaRiattivazione" asp-controller="ConfermaRiattivazione" method="post" class="m-0">
+                                <input type="hidden" name="userId" value="@user.Id" />
+                                <button type="submit" class="btn btn-sm btn-success">Riattiva</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-action="DeleteAccount" asp-controller="DeleteAccount" method="post" class="m-0">
+                                <input type="hidden" name="userId" value="@user.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger">Disattiva</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<style>
+    .dot{
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .attivo{
+        background-color: green;
+    }
+    
+    .disattivo{
+        background-color: red;
+    }
+
+</style>
