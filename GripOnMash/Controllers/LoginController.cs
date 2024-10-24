@@ -20,8 +20,29 @@
         [HttpGet]
         public IActionResult Login()
         {
+            // Se il medico di base è già autenticato invia al quiz
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("PushEsito", "PushEsitoQuestionario"); 
+            }
+
+            // Verifica se il cookie personalizzato (LDAP) esiste
+            var matricolaCookie = Request.Cookies["matricola_cookie"];
+            var authCookie = Request.Cookies["auth_cookie_grip_on_mash"];
+
+            // Se il medico interno è già autenticato, quindi esistono entrambi i cookie invialo a Index di Home
+            if (!string.IsNullOrEmpty(matricolaCookie) && !string.IsNullOrEmpty(authCookie))
+            {
+                var decryptedMatricola = _cookieCrypt.Decrypt(matricolaCookie);
+
+                if (!string.IsNullOrEmpty(decryptedMatricola))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
             return View();
         }
+
 
         [HttpPost] // LOGIN IDENTITY PER MEDICI DI BASE
         public async Task<IActionResult> Login(LoginViewModel model)
