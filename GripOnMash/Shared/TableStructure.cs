@@ -190,6 +190,9 @@
                     .IsRequired();
                 e.Property(eq => eq.EsitoQuestionarioId)
                     .IsRequired();
+                e.Property(eq => eq.DataQuestionario)
+                    .HasColumnType("datetime") 
+                    .IsRequired(false);
             });
 
             // Configurazione di ApplicationUser (AspNetUser)

@@ -56,7 +56,8 @@
                     {
                         EsitoQuestionarioId = esito.EsitoQuestionarioId,
                         DomandaId = rispostaSelezionata.DomandaId,
-                        RispostaId = rispostaSelezionata.RispostaId
+                        RispostaId = rispostaSelezionata.RispostaId,
+                        DataQuestionario = DateTime.Now.Date                     
                     };
 
                     _context.RisposteEsitoQuestionari.Add(rispostaEsito);

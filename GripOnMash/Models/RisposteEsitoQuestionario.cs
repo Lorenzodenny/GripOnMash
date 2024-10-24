@@ -4,6 +4,7 @@
     {
         [Key]
         public int RisposteEsitoQuestionarioId { get; set; }
+        public DateTime? DataQuestionario { get; set; }
 
         // Chiavi esterne a Domanda e Risposta
         public int DomandaId { get; set; }
