@@ -6,13 +6,15 @@
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
+        private readonly CookieCrypt _cookieCrypt;
 
-        public LoginController(LoginService ldapService, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public LoginController(LoginService ldapService, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, ApplicationDbContext context, CookieCrypt cookieCrypt)
         {
             _ldapService = ldapService ?? throw new ArgumentNullException(nameof(ldapService)); ;
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
             _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _cookieCrypt = cookieCrypt ?? throw new ArgumentNullException(nameof(cookieCrypt));  
         }
 
         [HttpGet]
@@ -77,9 +79,9 @@
             }
             else // LOGIN LDAP PER GLI INTERNI
             {
-                var ldapAuthenticated = await LoginService.LoginLdap(model.Input, model.Password);
-                if (ldapAuthenticated)
-                {
+                //var ldapAuthenticated = await LoginService.LoginLdap(model.Input, model.Password);
+                //if (ldapAuthenticated)
+                //{
                     // Recupera l'utente dal database
                     var user = await _context.InternalUsers
                         .Include(u => u.InternalUserRoles)
@@ -111,6 +113,22 @@
                         IsPersistent = true // Imposta la sessione persistente o no
                     };
 
+                    if (user != null)
+                    {
+                        // Cripta la matricola
+                        var encryptedMatricola = _cookieCrypt.Encrypt(user.Matricola);
+
+                        // Crea il cookie personalizzato per salvare la matricola criptata
+                        var cookieOptions = new CookieOptions
+                        {
+                            Expires = DateTime.Now.AddHours(1),
+                            HttpOnly = true
+                        };
+
+                        // Imposta il cookie con la matricola criptata
+                        Response.Cookies.Append("matricola_cookie", encryptedMatricola, cookieOptions);
+                    }
+
 
                     // Effettua il login utilizzando i cookie di autenticazione con lo schema CookieAuth in progrma.cs
                     await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);
@@ -129,7 +147,7 @@
 
                     Console.WriteLine("Tentativo di login con LDAP VALIDO");
                     return RedirectToAction("Index", "Home");
-                }
+                //}
                 Console.WriteLine("Tentativo di login con LDAP non valido");
                 ModelState.AddModelError("", "Tentativo di accesso con Ldap non valido.");
             }

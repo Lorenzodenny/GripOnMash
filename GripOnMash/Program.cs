@@ -66,7 +66,9 @@ builder.Services.AddTransient<EmailService>();
 builder.Services.AddScoped<EmailHelper>();
 //builder.Services.AddTransient<EmailService>();
 
-
+// Configura Data Protection per criptare i cookie
+builder.Services.AddDataProtection();
+builder.Services.AddScoped<CookieCrypt>();
 
 var app = builder.Build();
 
