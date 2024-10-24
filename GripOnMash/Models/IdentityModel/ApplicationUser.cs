@@ -7,6 +7,7 @@
         public string Cognome { get; set; }
         public bool IsDeleted { get; set; } = false; 
         public string CodiceOtp { get; set; }
+        public string CodiceMedico { get; set; }
 
         // Proprietà di navigazione per MedicoBaseAnagrafica
         public MedicoBaseAnagrafica MedicoBaseAnagrafica { get; set; }

@@ -36,7 +36,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = "/Login/Login";  
+    options.LoginPath = "/Login/Login";
+    options.LogoutPath = "/Logout/Logout";
 });
 
 // Registro lo schema dei cookie
@@ -48,6 +49,7 @@ builder.Services.AddAuthentication(options =>
 .AddCookie("CookieAuth", options =>
 {
     options.LoginPath = "/Login/Login";
+    options.LogoutPath = "/Logout/Logout";
     options.Cookie.Name = "auth_cookie_grip_on_mash";
     options.ExpireTimeSpan = TimeSpan.FromHours(1);
     options.SlidingExpiration = true;

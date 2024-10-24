@@ -9,23 +9,28 @@
     <ul class="navbar-nav w-100 align-items-lg-center">
         @* Recupero della matricola dal claim LDAP *@
         @{
-            string ldapMatricola = User.FindFirstValue(ClaimTypes.Name);
+            string ldapNome = User.FindFirstValue("NomeX");
+            string ldapCognome = User.FindFirstValue("CognomeX");
+
+            string ldapMatricola = ldapNome + " " + ldapCognome;
+
         }
 
 
-        <!-- Menu a discesa per il profilo utente e logout -->
+        <!-- Menu a discesa per il profilo utente e logouts -->
         <li class="nav-item ms-lg-auto mt-3 mt-lg-0 dropdown">
             <a class="header-menu-item text-dark rounded dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Ciao @ldapMatricola!
             </a>
             <ul class="dropdown-menu">
                 <li class="nav-item mt-3 mt-lg-0 mb-3 mb-lg-0">
-                    <a class="header-menu-item text-dark rounded dropdown-item" asp-controller="EditMedicoBase" asp-action="Edit">Modifica Profilo</a>
+                    <a class="header-menu-item text-dark rounded dropdown-item" asp-controller="EditMedicoInterno" asp-action="EditMedicoInterno">Modifica Profilo</a>
                 </li>
                 <li class="nav-item mt-3 mt-lg-0 mb-3 mb-lg-0">
                     <form asp-controller="Logout" asp-action="Logout" method="post" class="dropdown-item p-0 m-0">
                         <button type="submit" class="header-menu-item text-dark rounded btn btn-link dropdown-item">Logout</button>
                     </form>
+
                 </li>
             </ul>
         </li>
