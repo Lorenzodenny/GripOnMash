@@ -1,0 +1,50 @@
+﻿@model GripOnMash.Models.Agenda
+@using GripOnMash.Enums
+
+@{
+    ViewBag.Title = "Modifica Agenda";
+}
+
+<h2>Modifica Agenda</h2>
+
+<form asp-action="EditAgenda" method="post">
+    <div class="form-group">
+        <label asp-for="GiornoSettimana">Giorno della Settimana:</label>
+        <select asp-for="GiornoSettimana" class="form-control" asp-items="@(Html.GetEnumSelectList<GiornoSettimana>())"></select>
+        <span asp-validation-for="GiornoSettimana" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ValidoDalGiorno">Valido dal Giorno:</label>
+        <input asp-for="ValidoDalGiorno" type="date" class="form-control" />
+        <span asp-validation-for="ValidoDalGiorno" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ValidoFinoAlGiorno">Valido fino al Giorno:</label>
+        <input asp-for="ValidoFinoAlGiorno" type="date" class="form-control" />
+        <span asp-validation-for="ValidoFinoAlGiorno" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="OraInizio">Ora di Inizio:</label>
+        <input asp-for="OraInizio" type="time" class="form-control" />
+        <span asp-validation-for="OraInizio" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NumeroMassimoPazienti">Numero Massimo Pazienti:</label>
+        <input asp-for="NumeroMassimoPazienti" type="number" class="form-control" />
+        <span asp-validation-for="NumeroMassimoPazienti" class="text-danger"></span>
+    </div>
+
+    <!-- Pulsante per confermare la modifica -->
+    <button type="submit" class="btn btn-primary">Salva Modifiche</button>
+
+    <!-- Pulsante per annullare e tornare indietro -->
+    <a asp-action="GetAgendaPerInterno" class="btn btn-secondary">Annulla</a>
+</form>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

@@ -70,8 +70,7 @@
             {
                 e.ToTable(TableName.Agenda);
                 e.Property(a => a.GiornoSettimana)
-                    .IsRequired()
-                    .HasMaxLength(20);
+                    .IsRequired();
                 e.Property(a => a.ValidoDalGiorno)
                     .IsRequired();
                 e.Property(a => a.ValidoFinoAlGiorno)

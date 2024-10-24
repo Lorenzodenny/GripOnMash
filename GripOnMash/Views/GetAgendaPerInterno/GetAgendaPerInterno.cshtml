@@ -1,0 +1,36 @@
+﻿@model IEnumerable<GripOnMash.Models.Agenda>
+
+<h2>Agenda del Medico Interno</h2>
+
+<a asp-controller="AggiungiAgenda" asp-action="AggiungiAgenda" class="btn btn-success mb-3">Aggiungi Appuntamento</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Giorno della Settimana</th>
+            <th>Valido Dal Giorno</th>
+            <th>Valido Fino Al Giorno</th>
+            <th>Ora Inizio</th>
+            <th>Numero Massimo Pazienti</th>
+            <th>Azione</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var agenda in Model)
+        {
+            <tr>
+                <td>@agenda.GiornoSettimana</td>
+                <td>@agenda.ValidoDalGiorno.ToShortDateString()</td>
+                <td>@agenda.ValidoFinoAlGiorno.ToShortDateString()</td>
+                <td>@agenda.OraInizio</td>
+                <td>@agenda.NumeroMassimoPazienti</td>
+                <td>
+                    <a asp-controller="EditAgenda" asp-action="EditAgenda" asp-route-id="@agenda.AgendaId" class="btn btn-primary">Modifica</a>
+                    <form asp-controller="EliminaAgenda" asp-action="EliminaAgenda" asp-route-id="@agenda.AgendaId" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Elimina</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

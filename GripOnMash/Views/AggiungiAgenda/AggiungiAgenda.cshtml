@@ -1,0 +1,34 @@
+﻿@model GripOnMash.Models.Agenda
+@using GripOnMash.Enums
+
+<form asp-controller="AggiungiAgenda" asp-action="AggiungiAgenda" method="post">
+    <div>
+        <label for="GiornoSettimana">Giorno della Settimana:</label>
+        <select asp-for="GiornoSettimana" asp-items="@(Html.GetEnumSelectList<GiornoSettimana>())"></select>
+    </div>
+
+    <div>
+        <label for="ValidoDalGiorno">Valido dal Giorno:</label>
+        <input asp-for="ValidoDalGiorno" type="date" />
+    </div>
+
+    <div>
+        <label for="ValidoFinoAlGiorno">Valido fino al Giorno:</label>
+        <input asp-for="ValidoFinoAlGiorno" type="date" />
+    </div>
+
+    <div>
+        <label for="OraInizio">Ora di Inizio:</label>
+        <input asp-for="OraInizio" type="time" />
+    </div>
+
+    <div>
+        <label for="NumeroMassimoPazienti">Numero Massimo Pazienti:</label>
+        <input asp-for="NumeroMassimoPazienti" type="number" />
+    </div>
+
+    <!-- Campo hidden per passare l'ID del medico interno -->
+    <input type="hidden" asp-for="InternalUserId" value="@ViewBag.InternalUserId" />
+
+    <button type="submit">Aggiungi Agenda</button>
+</form>

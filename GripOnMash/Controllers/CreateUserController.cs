@@ -1,6 +1,6 @@
 ﻿namespace GripOnMash.Controllers
 {
-   // [Authorize(AuthenticationSchemes = "CookieAuth, Identity.Application", Roles = "Admin")]
+    [Authorize(AuthenticationSchemes = "CookieAuth")]
 
     public class CreateUserController : Controller
     {

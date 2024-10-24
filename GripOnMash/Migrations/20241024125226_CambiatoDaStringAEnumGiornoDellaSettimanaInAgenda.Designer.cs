@@ -4,6 +4,7 @@ using GripOnMash.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GripOnMash.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241024125226_CambiatoDaStringAEnumGiornoDellaSettimanaInAgenda")]
+    partial class CambiatoDaStringAEnumGiornoDellaSettimanaInAgenda
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,9 +38,6 @@ namespace GripOnMash.Migrations
 
                     b.Property<Guid>("InternalUserId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<int>("NumeroMassimoPazienti")
                         .HasColumnType("int");
@@ -228,12 +228,12 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5d706a07-0da3-4dda-92da-d5850bee6348",
+                            Id = "d514ebab-ca40-46b1-aa92-c463288fefb4",
                             AccessFailedCount = 0,
                             CodiceMedico = "A1B2",
                             CodiceOtp = "CodiceOtpSilveriMarco",
                             Cognome = "Silveri",
-                            ConcurrencyStamp = "4bf7baca-4843-48cb-9ca0-56f47d7b9ae4",
+                            ConcurrencyStamp = "ccc36652-74e8-4487-a73f-44708e0195b1",
                             Email = "medicobase1@gmail.com",
                             EmailConfirmed = true,
                             IsDeleted = false,
@@ -241,20 +241,20 @@ namespace GripOnMash.Migrations
                             Nome = "Marco",
                             NormalizedEmail = "MEDICOBASE1@GMAIL.COM",
                             NormalizedUserName = "MEDICOBASE1_UNICO",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAyIhKHqFSvYTBr7iqrMu8fsHCUfDeO7i8wUzhFlcchEai3UNcfWJv4PT1L6jf2xrQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEM6AloGYoMm/ry/VmyceW/t0ND0geYy1dXtii+ecpIo+r5/A7kUdZb/PUDd6Lu5uhg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "271c6b77-91df-445b-9033-eae443c29eb2",
+                            SecurityStamp = "6416b3ee-3b35-498c-81d6-a82a976414f7",
                             TwoFactorEnabled = false,
                             UserName = "medicoBase1_unico"
                         },
                         new
                         {
-                            Id = "34af83cb-0d70-4991-93d3-98e8bc162041",
+                            Id = "e8b5d852-d47b-4c99-bb1e-14ee1ac99712",
                             AccessFailedCount = 0,
                             CodiceMedico = "C3D4",
                             CodiceOtp = "CodiceOtpFrancescoGentile",
                             Cognome = "Gentile",
-                            ConcurrencyStamp = "7c91a095-9b7b-4f18-9278-e6c11a079f45",
+                            ConcurrencyStamp = "fc1c3105-4cdd-4cd0-9208-1e2c6a176888",
                             Email = "medicobase2@gmail.com",
                             EmailConfirmed = true,
                             IsDeleted = false,
@@ -262,9 +262,9 @@ namespace GripOnMash.Migrations
                             Nome = "Francesco",
                             NormalizedEmail = "MEDICOBASE2@GMAIL.COM",
                             NormalizedUserName = "MEDICOBASE2_UNICO",
-                            PasswordHash = "AQAAAAIAAYagAAAAENBkQMkUKUmXh5uYsgbzCu6kzCUdQXWebMnmcdgy2UjRRTuuLsj0jnv3puhEuzVRZg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEH36W/PifSnsa+RO5fMhJziuERB5x4lmw8zQcbe8gMUyEut08vYFd5u3yx5L793k7Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "59876fb8-f5f4-4cb8-b517-89ec156ca9c8",
+                            SecurityStamp = "58bbae13-0987-4367-a235-2fc185277f44",
                             TwoFactorEnabled = false,
                             UserName = "medicoBase2_unico"
                         });
@@ -304,7 +304,7 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("985dcc35-f89c-4c62-b25a-8fbb43cad7da"),
+                            Id = new Guid("e70d4ebf-5fe7-44af-8e69-16fd2ff46aa3"),
                             Cognome = "Silveri",
                             IsEnabled = true,
                             Matricola = "sb004193",
@@ -312,7 +312,7 @@ namespace GripOnMash.Migrations
                         },
                         new
                         {
-                            Id = new Guid("90efade2-3e45-4f1e-afb1-5e06a734268a"),
+                            Id = new Guid("d259f2e5-fbe5-41eb-a5b0-3c5581f458b2"),
                             Cognome = "Picchi",
                             IsEnabled = true,
                             Matricola = "00665539",
@@ -320,7 +320,7 @@ namespace GripOnMash.Migrations
                         },
                         new
                         {
-                            Id = new Guid("efc17fb2-a55a-4f1c-8b5c-6fcbe363a0ae"),
+                            Id = new Guid("442d6801-4fbd-48af-9050-ad77d1af717b"),
                             Cognome = "Rossi",
                             IsEnabled = true,
                             Matricola = "sb004194",
@@ -377,17 +377,17 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            InternalUserId = new Guid("985dcc35-f89c-4c62-b25a-8fbb43cad7da"),
+                            InternalUserId = new Guid("e70d4ebf-5fe7-44af-8e69-16fd2ff46aa3"),
                             RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
                         },
                         new
                         {
-                            InternalUserId = new Guid("90efade2-3e45-4f1e-afb1-5e06a734268a"),
+                            InternalUserId = new Guid("d259f2e5-fbe5-41eb-a5b0-3c5581f458b2"),
                             RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
                         },
                         new
                         {
-                            InternalUserId = new Guid("efc17fb2-a55a-4f1c-8b5c-6fcbe363a0ae"),
+                            InternalUserId = new Guid("442d6801-4fbd-48af-9050-ad77d1af717b"),
                             RoleId = "fe232d35-f62d-407f-995b-1934d38d96cc"
                         });
                 });
@@ -475,7 +475,7 @@ namespace GripOnMash.Migrations
                             Cognome = "Verdi",
                             EmailPersonale = "giuseppe.verdi@gmail.com",
                             Eta = 45,
-                            IdentityId = "5d706a07-0da3-4dda-92da-d5850bee6348",
+                            IdentityId = "d514ebab-ca40-46b1-aa92-c463288fefb4",
                             Indirizzo = "Via Roma 1, Milano",
                             Nome = "Giuseppe",
                             NumeroAlbo = "12345MI",
@@ -490,7 +490,7 @@ namespace GripOnMash.Migrations
                             Cognome = "Bianchi",
                             EmailPersonale = "francesca.bianchi@gmail.com",
                             Eta = 38,
-                            IdentityId = "34af83cb-0d70-4991-93d3-98e8bc162041",
+                            IdentityId = "e8b5d852-d47b-4c99-bb1e-14ee1ac99712",
                             Indirizzo = "Via Torino 10, Torino",
                             Nome = "Francesca",
                             NumeroAlbo = "67890TO",
@@ -750,12 +750,12 @@ namespace GripOnMash.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "5d706a07-0da3-4dda-92da-d5850bee6348",
+                            UserId = "d514ebab-ca40-46b1-aa92-c463288fefb4",
                             RoleId = "447b3ca6-bd0b-4e83-baf9-2de7069c10c5"
                         },
                         new
                         {
-                            UserId = "34af83cb-0d70-4991-93d3-98e8bc162041",
+                            UserId = "e8b5d852-d47b-4c99-bb1e-14ee1ac99712",
                             RoleId = "447b3ca6-bd0b-4e83-baf9-2de7069c10c5"
                         });
                 });
