@@ -1,6 +1,436 @@
 ﻿@model List<Domanda>
 
 @{
+    ViewData["Title"] = "Questionario paziente";
+    string domandaDaCalcolare = "Il cielo è blu?";
+
+}
+
+<div class="d-flex flex-column w-100 gap-2 gap-lg-3" style="margin-bottom: 53px">
+    <div class="registrazione-pazienti-wrapper d-flex flex-column w-100 rounded-lg p-2 p-lg-4">
+
+        <form asp-action="PushEsito" method="post" class="w-100" autocomplete="off" id="processForm">
+            <div class="d-flex flex-column gap-2 gap-lg-3 w-100">
+
+                <div class="d-flex flex-column gap-2 gap-lg-3 w-100">
+                    <div class="row">
+                        <h2 class="signup-title">Criteri di esclusione</h2>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            if (Model[i].DomandaInclusione == false)
+                            {
+                                <div class="col-12 col-md-6 col-lg-3">
+                                    <div class="d-flex flex-column gap-2 w-100 mt-auto">
+                                        <label class="my-label slategray">
+                                            @Model[i].DomandaTesto
+                                            @if (!string.IsNullOrEmpty(Model[i].DomandaTooltip))
+                                            {
+                                                <span data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
+                                                    data-bs-title="@Model[i].DomandaTooltip"
+                                                    style="border-radius: 1000px; color: white; background-color: var(--blue-gemelli-a); padding: 1px 5px; margin-left: 3px; font-size: 10px;">?</span>
+                                            }
+                                        </label>
+                                        <!-- Radio buttons -->
+                                        <div class="btn-group" role="group">
+                                            @foreach (var risposta in Model[i].Risposte)
+                                            {
+                                                <input required type="radio" id="risposta_@risposta.RispostaId" name="RisposteSelezionate[@i].RispostaId" value="@risposta.RispostaId" class="btngrp btn-check criterio-esclusione" data-question-index="@i" autocomplete="off" />
+                                                <label class="btn btn-outline-primary" for="risposta_@risposta.RispostaId">@risposta.RispostaTesto</label>
+                                            }
+                                        </div>
+                                        <input type="hidden" name="RisposteSelezionate[@i].DomandaId" value="@Model[i].DomandaId" />
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+
+                <div id="inclusionCriteriaSection" style="display: none;">
+                    <div class="d-flex flex-column gap-2 gap-lg-3 w-100">
+                        <div class="row">
+                            <h2 class="signup-title">Criteri di inclusione</h2>
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                                if (Model[i].DomandaInclusione == true)
+                                {
+                                    if (Model[i].DomandaTesto == domandaDaCalcolare)
+                                    {
+                                        <!-- Specific rendering for "Il cielo è blu" question -->
+                                        <div class="col-12 col-md-6" id="sindrome-metabolica">
+                                            <div class="d-flex flex-column gap-2 w-100 mt-auto">
+                                                <label class="my-label slategray">
+                                                    @Model[i].DomandaTesto
+                                                    @if (!string.IsNullOrEmpty(Model[i].DomandaTooltip))
+                                                    {
+                                                        <span data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            data-bs-title="@Model[i].DomandaTooltip"
+                                                            style="border-radius: 1000px; color: white; background-color: var(--blue-gemelli-a); padding: 1px 5px; margin-left: 3px; font-size: 10px;">?</span>
+                                                    }
+                                                </label>
+                                                <div class="btn-group flex-wrap" role="group">
+                                                    @{
+                                                        // Creiamo una lista per tenere traccia degli ID delle risposte
+                                                        var rispostaIds = new Dictionary<string, int>();
+                                                    }
+                                                    @foreach (var risposta in Model[i].Risposte)
+                                                    {
+                                                        var rispostaTesto = risposta.RispostaTesto.Trim().ToLower();
+                                                        var answerClass = rispostaTesto == "sì" || rispostaTesto == "si" ? "answer-si" : rispostaTesto == "no" ? "answer-no" : "";
+
+                                                        // Aggiungiamo l'ID della risposta al dizionario
+                                                        rispostaIds[answerClass] = risposta.RispostaId;
+
+                                                        <input required type="radio" id="risposta_@risposta.RispostaId" name="DummyName" value="@risposta.RispostaId" class="btngrp btn-check @answerClass" data-question-index="@i" autocomplete="off" disabled />
+                                                        <label class="btn btn-outline-primary" for="risposta_@risposta.RispostaId">@risposta.RispostaTesto</label>
+                                                    }
+
+                                                    <!-- Campo nascosto per memorizzare l'ID della risposta selezionata -->
+                                                    <input type="hidden" id="hiddenRispostaId_@i" name="RisposteSelezionate[@i].RispostaId" value="" />
+                                                    <input type="hidden" name="RisposteSelezionate[@i].DomandaId" value="@Model[i].DomandaId" />
+
+                                                    <!-- Aggiungi pulsante "Calcola" -->
+                                                    <button type="button" class=" w-100 btn btn-primary mt-2 open-modal" data-risposta-si="@rispostaIds["answer-si"]" data-risposta-no="@rispostaIds["answer-no"]">Calcola</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <!-- Existing rendering for other inclusion questions -->
+                                        <div class="col-12 col-md-6">
+                                            <div class="d-flex flex-column gap-2 w-100 mt-auto">
+                                                <label class="my-label slategray">
+                                                    @Model[i].DomandaTesto
+                                                    @if (!string.IsNullOrEmpty(Model[i].DomandaTooltip))
+                                                    {
+                                                        <span data-bs-toggle="tooltip"
+                                                            data-bs-placement="top"
+                                                            data-bs-title="@Model[i].DomandaTooltip"
+                                                            style="border-radius: 1000px; color: white; background-color: var(--blue-gemelli-a); padding: 1px 5px; margin-left: 3px; font-size: 10px;">?</span>
+                                                    }
+                                                </label>
+                                                <div class="btn-group" role="group">
+                                                    @foreach (var risposta in Model[i].Risposte)
+                                                    {
+                                                        <input required type="radio" id="risposta_@risposta.RispostaId" name="RisposteSelezionate[@i].RispostaId" value="@risposta.RispostaId" class="btngrp btn-check" autocomplete="off" />
+                                                        <label class="btn btn-outline-primary" for="risposta_@risposta.RispostaId">@risposta.RispostaTesto</label>
+                                                    }
+                                                </div>
+                                                <input type="hidden" name="RisposteSelezionate[@i].DomandaId" value="@Model[i].DomandaId" />
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" name="PazienteIdoneo" value="true" />
+
+                <div class="d-flex flex-column flex-lg-row gap-2 gap-lg-3 mt-4">
+                    <button id="invio-button" type="submit" class="btn btn-gemelli myButton" style="min-width: 180px">Invia Esito</button>
+                    <button type="reset" class="btn btn-outline-danger myButton" style="min-width: 180px">Annulla</button>
+                </div>
+
+            </div>
+        </form>
+
+        <!-- Modale per la Sindrome Metabolica -->
+        <div class="modal fade" id="metabolicSyndromeModal" tabindex="-1" aria-labelledby="metabolicSyndromeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="metabolicSyndromeModalLabel">Verifica della Sindrome Metabolica</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Form della sindrome metabolica -->
+                        <form id="metabolicSyndromeForm">
+                            <div class="form-group">
+                                <label for="gender">Sesso:</label>
+                                <select class="form-control" id="gender" name="gender" required>
+                                    <option value="">Seleziona</option>
+                                    <option value="male">Maschio</option>
+                                    <option value="female">Femmina</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="waistCircumference">Circonferenza vita (cm):</label>
+                                <input type="number" class="form-control" id="waistCircumference" name="waistCircumference" min="0" step="0.1" />
+                                <small>Se non disponibile, verrà utilizzato il BMI per presumere l'obesità centrale.</small>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bmi">Indice di massa corporea (BMI):</label>
+                                <input type="number" class="form-control" id="bmi" name="bmi" min="0" step="0.1" required />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="triglycerides">Trigliceridi (mg/dL):</label>
+                                <input type="number" class="form-control" id="triglycerides" name="triglycerides" min="0" step="0.1" required />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Trattamento per ipertrigliceridemia:</label><br />
+                                <label><input type="radio" name="triglyceridesTreatment" value="yes" required /> Sì</label><br />
+                                <label><input type="radio" name="triglyceridesTreatment" value="no" required /> No</label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="hdl">Colesterolo HDL (mg/dL):</label>
+                                <input type="number" class="form-control" id="hdl" name="hdl" min="0" step="0.1" required />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Trattamento per dislipidemia (HDL basso):</label><br />
+                                <label><input type="radio" name="hdlTreatment" value="yes" required /> Sì</label><br />
+                                <label><input type="radio" name="hdlTreatment" value="no" required /> No</label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bloodPressureSystolic">Pressione sistolica (mmHg):</label>
+                                <input type="number" class="form-control" id="bloodPressureSystolic" name="bloodPressureSystolic" min="0" required />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bloodPressureDiastolic">Pressione diastolica (mmHg):</label>
+                                <input type="number" class="form-control" id="bloodPressureDiastolic" name="bloodPressureDiastolic" min="0" required />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Trattamento per ipertensione diagnosticata:</label><br />
+                                <label><input type="radio" name="bloodPressureTreatment" value="yes" required /> Sì</label><br />
+                                <label><input type="radio" name="bloodPressureTreatment" value="no" required /> No</label>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="fastingGlucose">Glicemia a digiuno (mg/dL):</label>
+                                <input type="number" class="form-control" id="fastingGlucose" name="fastingGlucose" min="0" step="0.1" required />
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Diagnosi precedente di diabete di tipo 2:</label><br />
+                                <label><input type="radio" name="diabetesDiagnosis" value="yes" required /> Sì</label><br />
+                                <label><input type="radio" name="diabetesDiagnosis" value="no" required /> No</label>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Verifica Sindrome Metabolica</button>
+                        </form>
+
+                        <p id="result"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section scripts {
+    <script>
+    $(document).ready(function () {
+        // Inizializza i tooltip
+        $('[data-bs-toggle="tooltip"]').tooltip();
+
+        // Funzione per controllare i criteri di esclusione
+        function checkExclusionCriteria() {
+            let allNo = true;
+
+            // Itera su ogni criterio di esclusione
+            $('.criterio-esclusione').each(function () {
+                let questionIndex = $(this).data('question-index');
+                let radios = $("input[name='RisposteSelezionate[" + questionIndex + "].RispostaId']");
+                let selectedRadio = radios.filter(':checked');
+
+                if (selectedRadio.length === 0) {
+                    allNo = false;
+                    return false; // Esce dal ciclo
+                } else {
+                    var selectedText = selectedRadio.next('label').text().trim().toLowerCase();
+                    if (selectedText !== 'no') {
+                        allNo = false;
+                        return false; // Esce dal ciclo
+                    }
+                }
+            });
+
+            // Mostra o nasconde la sezione dei criteri di inclusione
+            if (allNo) {
+                $('#invio-button').prop('disabled', false);
+                $('#inclusionCriteriaSection').show();
+            } else {
+                $('#invio-button').prop('disabled', true);
+                $('#inclusionCriteriaSection').hide();
+            }
+        }
+
+        // Evento per quando cambia uno dei radio button dei criteri di esclusione
+        $(document).on('change', '.criterio-esclusione', function () {
+            checkExclusionCriteria();
+        });
+
+        // Variabili per memorizzare gli ID delle risposte "Sì" e "No"
+        var rispostaSiId = null;
+        var rispostaNoId = null;
+
+        // Evento per aprire il modale quando l'utente clicca sul pulsante "Calcola"
+        $(document).on('click', '.open-modal', function () {
+            // Ottieni gli ID delle risposte dal data attribute
+            rispostaSiId = $(this).data('risposta-si');
+            rispostaNoId = $(this).data('risposta-no');
+
+            // Apri il modale
+            $('#metabolicSyndromeModal').modal('show');
+        });
+
+        // Controllo iniziale all'avvio della pagina
+        checkExclusionCriteria();
+
+        // Funzionalità per il pulsante di reset
+        $('button[type="reset"]').on('click', function () {
+            $('#invio-button').prop('disabled', true);
+            $('#inclusionCriteriaSection').hide();
+        });
+
+        // Funzione per impostare la risposta alla domanda sulla sindrome metabolica e prevenire modifiche
+
+        function setSindromeMetabolicaAnswer(answer) {
+            var questionDiv = document.getElementById("sindrome-metabolica");
+            var radioButtons = questionDiv.querySelectorAll("input[type='radio']");
+            var labels = questionDiv.querySelectorAll("label.btn");
+            var hiddenInput = questionDiv.querySelector("input[type='hidden'][id^='hiddenRispostaId_']");
+
+            // Seleziona il radio button appropriato
+            var answerClass = (answer.toLowerCase() === "sì" || answer.toLowerCase() === "si") ? "answer-si" : "answer-no";
+            var selectedRadio = questionDiv.querySelector("input." + answerClass);
+
+            if (selectedRadio) {
+                selectedRadio.checked = true;
+
+                // Imposta il valore del campo nascosto con l'ID della risposta selezionata
+                if (answerClass === "answer-si") {
+                    hiddenInput.value = rispostaSiId;
+                } else if (answerClass === "answer-no") {
+                    hiddenInput.value = rispostaNoId;
+                }
+
+                // Aggiungi una classe per indicare che è bloccato
+                selectedRadio.classList.add('locked');
+            }
+
+            // Rendi le altre opzioni non selezionabili
+            radioButtons.forEach(function(rb) {
+                if (!rb.classList.contains('locked')) {
+                    rb.disabled = true;
+                }
+            });
+            labels.forEach(function(label) {
+                label.classList.add('disabled');
+            });
+        }
+
+        // Script per gestire il form della sindrome metabolica
+        $('#metabolicSyndromeForm').on('submit', function(event) {
+            event.preventDefault();
+
+            // Acquisizione dei dati dal form
+            const waistCircumferenceInput = document.getElementById("waistCircumference").value;
+            const waistCircumference = waistCircumferenceInput ? parseFloat(waistCircumferenceInput) : null;
+            const bmi = parseFloat(document.getElementById("bmi").value);
+            const gender = document.getElementById("gender").value;
+            const triglycerides = parseFloat(document.getElementById("triglycerides").value);
+            const triglyceridesTreatment = document.querySelector('input[name="triglyceridesTreatment"]:checked').value;
+            const hdl = parseFloat(document.getElementById("hdl").value);
+            const hdlTreatment = document.querySelector('input[name="hdlTreatment"]:checked').value;
+            const systolicBP = parseFloat(document.getElementById("bloodPressureSystolic").value);
+            const diastolicBP = parseFloat(document.getElementById("bloodPressureDiastolic").value);
+            const bloodPressureTreatment = document.querySelector('input[name="bloodPressureTreatment"]:checked').value;
+            const fastingGlucose = parseFloat(document.getElementById("fastingGlucose").value);
+            const diabetesDiagnosis = document.querySelector('input[name="diabetesDiagnosis"]:checked').value;
+
+            // Definizione delle soglie
+            const maleWaistThreshold = 94;
+            const femaleWaistThreshold = 80;
+            const bmiThreshold = 30;
+            const triglyceridesThreshold = 150;
+            const hdlThresholdMale = 40;
+            const hdlThresholdFemale = 50;
+            const bloodPressureThresholdSystolic = 130;
+            const bloodPressureThresholdDiastolic = 85;
+            const fastingGlucoseThreshold = 100;
+
+            // Verifica dell'obesità centrale
+            let isObese = false;
+
+            if (waistCircumference !== null && !isNaN(waistCircumference)) {
+                if ((gender === "male" && waistCircumference >= maleWaistThreshold) ||
+                    (gender === "female" && waistCircumference >= femaleWaistThreshold)) {
+                    isObese = true;
+                }
+            } else {
+                if (bmi > bmiThreshold) {
+                    isObese = true;
+                }
+            }
+            
+            let conditionsMet = 0;
+
+            // Verifica trigliceridi
+            if (triglycerides >= triglyceridesThreshold || triglyceridesTreatment === "yes") {
+                conditionsMet++;
+            }
+
+            // Verifica colesterolo HDL
+            if ((gender === "male" && hdl < hdlThresholdMale) || (gender === "female" && hdl < hdlThresholdFemale) || hdlTreatment === "yes") {
+                conditionsMet++;
+            }
+
+            // Verifica pressione arteriosa
+            if (systolicBP >= bloodPressureThresholdSystolic || diastolicBP >= bloodPressureThresholdDiastolic || bloodPressureTreatment === "yes") {
+                conditionsMet++;
+            }
+
+            // Verifica glicemia a digiuno
+            if (fastingGlucose >= fastingGlucoseThreshold || diabetesDiagnosis === "yes") {
+                conditionsMet++;
+            }
+
+            // Verifica della presenza della sindrome metabolica
+            if (isObese && conditionsMet >= 2) {
+                document.getElementById("result").innerText = "Sindrome metabolica rilevata.";
+                // Imposta la risposta a "Sì" e previene modifiche
+                setSindromeMetabolicaAnswer("Sì");
+            } else {
+                document.getElementById("result").innerText = "Sindrome metabolica non rilevata.";
+                // Imposta la risposta a "No" e previene modifiche
+                setSindromeMetabolicaAnswer("No");
+            }
+
+            // Chiudi il modale dopo l'elaborazione
+            $('#metabolicSyndromeModal').modal('hide');
+        });
+    });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+
+                                                @*-------------------------------------------------------------
+                                                        CODICE SENZA CALCOLO DELLA SINDROME METABOLICA 
+                                                ---------------------------------------------------------------*@
+
+@* @model List<Domanda>
+
+@{
     ViewData["Title"] = "Questionario Paziente";
 }
 <div class="d-flex flex-column w-100 gap-2 gap-lg-3" style="margin-bottom: 53px">
@@ -152,4 +582,4 @@
     </script>
     <partial name="_ValidationScriptsPartial" />
 }
-
+ *@
