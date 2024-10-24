@@ -1,3 +1,5 @@
+using GripOnMash.MiddleWare;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -66,7 +68,9 @@ builder.Services.AddTransient<EmailService>();
 builder.Services.AddScoped<EmailHelper>();
 //builder.Services.AddTransient<EmailService>();
 
-
+// Configura Data Protection per criptare i cookie
+builder.Services.AddDataProtection();
+builder.Services.AddScoped<CookieCrypt>();
 
 var app = builder.Build();
 
@@ -77,10 +81,16 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseStaticFiles();
 
+
+
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Middleware che controlla e gestisce su ogni chiamata se l'utente loggato ha il booleano
+// IsDeleted su true, in caso forza il logout
+app.UseMiddleware<CheckIfDeletedMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

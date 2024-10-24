@@ -1,0 +1,51 @@
+﻿@model List<GripOnMash.Models.IdentityModel.ApplicationUser>
+
+<h2>Lista dei Medici</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Email</th>
+            <th>Stato</th>
+            <th>Azione</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Nome</td>
+                <td>@user.Cognome</td>
+                <td>@user.Email</td>
+                <td>
+                    @if (user.IsDeleted)
+                    {
+                        <span class="text-danger">Disattivato</span>
+                    }
+                    else
+                    {
+                        <span class="text-success">Attivo</span>
+                    }
+                </td>
+                <td>
+                    @if (user.IsDeleted)
+                    {
+                        <form asp-action="ConfermaRiattivazione" asp-controller="ConfermaRiattivazione" method="post">
+                            <input type="hidden" name="userId" value="@user.Id" />
+                            <button type="submit" class="btn btn-success">Riattiva</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="DeleteAccount" asp-controller="DeleteAccount" method="post">
+                            <input type="hidden" name="userId" value="@user.Id" />
+                            <button type="submit" class="btn btn-danger">Disattiva</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
