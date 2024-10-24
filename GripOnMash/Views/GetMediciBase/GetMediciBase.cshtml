@@ -1,11 +1,8 @@
-﻿@model List<GripOnMash.Models.IdentityModel.ApplicationUser>
+﻿@* @model List<GripOnMash.Models.IdentityModel.ApplicationUser>
 
 @{
     ViewData["Title"] = "Lista dei Medici";
 }
-
-
-@* <h2 class="my-label">Lista dei Medici</h2> *@
 
         <div class="d-flex justify-content-center align-items-center w-100">
             <span class="signup-title">Lista dei Medici</span>
@@ -84,4 +81,119 @@
         background-color: red;
     }
 
+</style> *@
+
+
+@model List<GripOnMash.Models.IdentityModel.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Lista dei Medici";
+}
+
+<div class="d-flex justify-content-center align-items-center w-100">
+    <span class="signup-title">Lista dei Medici</span>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover mt-4 bg-light">
+        <thead>
+            <tr>
+                <th class="my-label slategray" style="color: var(--blue-gemelli-a);">Stato</th>
+                <th class="my-label slategray" style="color: var(--blue-gemelli-a);">Nome</th>
+                <th class="my-label slategray" style="color: var(--blue-gemelli-a);">Cognome</th>
+                <th class="my-label slategray" style="color: var(--blue-gemelli-a);">Email</th>
+                <th class="my-label slategray" style="color: var(--blue-gemelli-a);">Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>
+                        @if (user.IsDeleted)
+                        {
+                            <div class="text-danger fw-bold">
+                                <div class="dot disattivo"></div>
+                                <span>Disattivato</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-success fw-bold">
+                                <div class="dot attivo"></div>
+                                <span>Attivo</span>
+                            </div>
+                        }
+                    </td>
+                    <td class="text-dark">@user.Nome</td>
+                    <td class="text-dark">@user.Cognome</td>
+                    <td class="text-dark">@user.Email</td>
+                    <td class="d-flex flex-column flex-lg-row gap-2 gap-lg-3 align-items-center">
+                        @if (user.IsDeleted)
+                        {
+                            <!-- Pulsante per aprire il modal di riattivazione -->
+                            <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-@user.Id">
+                                Riattiva
+                            </button>
+                        }
+                        else
+                        {
+                            <!-- Pulsante per aprire il modal di disattivazione -->
+                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-@user.Id">
+                                Disattiva
+                            </button>
+                        }
+                    </td>
+                </tr>
+
+                <!-- Modal di conferma -->
+                <div class="modal fade" id="confirmModal-@user.Id" tabindex="-1" aria-labelledby="confirmModalLabel-@user.Id" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">@(user.IsDeleted ? "Conferma Riattivazione" : "Conferma Disattivazione")</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Chiudi"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Sei sicuro di voler @(user.IsDeleted ? "riattivare" : "disattivare") l'account di 
+                                        <span class="fw-bold">
+                                            @user.Nome @user.Cognome
+                                        </span>?
+                                </p>
+                                @* <p>Sei sicuro di voler @(user.IsDeleted ? "riattivare" : "disattivare") l'account di @user.Nome @user.Cognome?</p> *@
+                            </div>
+                            <div class="modal-footer">
+                                <form asp-action="@(user.IsDeleted ? "ConfermaRiattivazione" : "DeleteAccount")" asp-controller="@(user.IsDeleted ? "ConfermaRiattivazione" : "DeleteAccount")" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="userId" value="@user.Id" />
+                                    <button type="submit" class="btn @(user.IsDeleted ? "btn-success" : "btn-danger")">
+                                        @(user.IsDeleted ? "Riattiva" : "Disattiva")
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .dot {
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .attivo {
+        background-color: green;
+    }
+
+    .disattivo {
+        background-color: red;
+    }
 </style>
+
